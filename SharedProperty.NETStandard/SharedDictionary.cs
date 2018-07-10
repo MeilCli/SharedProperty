@@ -25,7 +25,7 @@ namespace SharedProperty.NETStandard
 
         public async Task LoadFromStorageAsync()
         {
-            await semaphoreSlim.WaitAsync();
+            await semaphoreSlim.WaitAsync().ConfigureAwait(false);
             try
             {
                 properties.Clear();
@@ -50,7 +50,7 @@ namespace SharedProperty.NETStandard
 
         public async Task SaveToStorageAsync()
         {
-            await semaphoreSlim.WaitAsync();
+            await semaphoreSlim.WaitAsync().ConfigureAwait(false);
             try
             {
                 byte[] bytes = serializer.Serialize(properties.Values);
@@ -84,7 +84,7 @@ namespace SharedProperty.NETStandard
 
         public async Task<bool> ContainsKeyAsync(string key)
         {
-            await semaphoreSlim.WaitAsync();
+            await semaphoreSlim.WaitAsync().ConfigureAwait(false);
             try
             {
                 return ContainsKey(key);
@@ -110,7 +110,7 @@ namespace SharedProperty.NETStandard
 
         public async Task<T> GetPropertyAsync<T>(string key)
         {
-            await semaphoreSlim.WaitAsync();
+            await semaphoreSlim.WaitAsync().ConfigureAwait(false);
             try
             {
                 return GetProperty<T>(key);
@@ -138,7 +138,7 @@ namespace SharedProperty.NETStandard
 
         public async Task<(bool isSuccess, T value)> TryGetPropertyAsync<T>(string key)
         {
-            await semaphoreSlim.WaitAsync();
+            await semaphoreSlim.WaitAsync().ConfigureAwait(false);
             try
             {
                 bool isSuccess = TryGetProperty<T>(key, out T value);
@@ -170,7 +170,7 @@ namespace SharedProperty.NETStandard
 
         public async Task SetPropertyAsync<T>(string key, T value)
         {
-            await semaphoreSlim.WaitAsync();
+            await semaphoreSlim.WaitAsync().ConfigureAwait(false);
             try
             {
                 SetProperty(key, value);
