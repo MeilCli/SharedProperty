@@ -65,7 +65,7 @@ SpanJsonではUTF-16にも対応していますが速度が遅くなるため、
 難読化や暗号化のために標準ではいくつかのConverterを用意しています。
 
 難読化のためなら`SimpleConverter.Default`, `AesCryptoConverter.Default`, `RijndaelCryptoConverter.Default`が使えます。
-`SimpleConverter.Default`は単純に文字コードを+1しているだけなので非常に高速です。ちょっとリッチな難読化をする場合は`AesCryptoConverter.Default`または`RijndaelCryptoConverter`を利用してください。
+`SimpleConverter.Default`は単純に文字コードを+1しているだけなので非常に高速です。ちょっとリッチな難読化をする場合は`AesCryptoConverter.Default`または`RijndaelCryptoConverter.Default`を利用してください。
 
 暗号化には`AesCryptoConverter`または`RijndaelCryptoConverter`が使用できます。  
 強度なセキュリティを保つには開発者は必ずアプリケーション固有の暗号鍵を使用する必要があります。
