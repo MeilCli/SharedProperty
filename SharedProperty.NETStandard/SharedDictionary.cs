@@ -36,7 +36,7 @@ namespace SharedProperty.NETStandard
                 }
 
                 byte[] bytes = await storage.ReadAsync();
-                bytes = converter != null ? converter.Deconvert(bytes) : bytes;
+                bytes = converter?.Deconvert(bytes) ?? bytes;
                 foreach (var property in serializer.Deserialize(bytes))
                 {
                     properties[property.Key] = property;
@@ -54,7 +54,7 @@ namespace SharedProperty.NETStandard
             try
             {
                 byte[] bytes = serializer.Serialize(properties.Values);
-                bytes = converter != null ? converter.Convert(bytes) : bytes;
+                bytes = converter?.Convert(bytes) ?? bytes;
                 await storage.WriteAsync(bytes);
             }
             finally
