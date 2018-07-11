@@ -38,13 +38,13 @@ namespace SharedProperty.Serializer.SpanJson
             SerializeMode = serializeMode;
         }
 
-        public IEnumerable<Property> Deserialize(byte[] binary)
+        public IEnumerable<IProperty> Deserialize(byte[] binary)
         {
             var reader = new JsonReader<byte>(binary);
             reader.ReadUtf8BeginObjectOrThrow();
             int count = 0;
             string propertyType = null;
-            IEnumerable<Property> result = null;
+            IEnumerable<IProperty> result = null;
             while (reader.TryReadUtf8IsEndObjectOrValueSeparator(ref count) == false)
             {
                 string name = reader.ReadUtf8EscapedName();
@@ -64,7 +64,7 @@ namespace SharedProperty.Serializer.SpanJson
             return result ?? throw new InvalidOperationException("not found properties");
         }
 
-        private IEnumerable<Property> readProperiesValue(ref JsonReader<byte> reader, string propertyType)
+        private IEnumerable<IProperty> readProperiesValue(ref JsonReader<byte> reader, string propertyType)
         {
             if (propertyType == null)
             {
@@ -81,16 +81,16 @@ namespace SharedProperty.Serializer.SpanJson
             return null;
         }
 
-        private IEnumerable<Property> readPropertiesValueWithLargeType(ref JsonReader<byte> reader)
+        private IEnumerable<IProperty> readPropertiesValueWithLargeType(ref JsonReader<byte> reader)
         {
-            var result = new List<Property>();
+            var result = new List<IProperty>();
             reader.ReadUtf8BeginArrayOrThrow();
             int arrayCount = 0;
             while (reader.TryReadUtf8IsEndArrayOrValueSeparator(ref arrayCount) == false)
             {
                 string key = null;
                 string type = null;
-                Property property = null;
+                IProperty property = null;
                 reader.ReadUtf8BeginObjectOrThrow();
                 int objectCount = 0;
                 while (reader.TryReadUtf8IsEndObjectOrValueSeparator(ref objectCount) == false)
@@ -126,9 +126,9 @@ namespace SharedProperty.Serializer.SpanJson
             return result;
         }
 
-        private IEnumerable<Property> readPropertiesValueWithShortType(ref JsonReader<byte> reader)
+        private IEnumerable<IProperty> readPropertiesValueWithShortType(ref JsonReader<byte> reader)
         {
-            var result = new List<Property>();
+            var result = new List<IProperty>();
             reader.ReadUtf8BeginObjectOrThrow();
             int count = 0;
             while (reader.TryReadUtf8IsEndObjectOrValueSeparator(ref count) == false)
@@ -138,7 +138,7 @@ namespace SharedProperty.Serializer.SpanJson
                 reader.ReadUtf8BeginObjectOrThrow();
                 string type = reader.ReadUtf8EscapedName();
                 ISpanJsonFormatter formatter = jsonFormatterResolver.Resolve(type);
-                Property property = formatter.Read(ref reader);
+                IProperty property = formatter.Read(ref reader);
                 reader.ReadUtf8IsEndObject();
 
                 property.Type = type;
@@ -148,7 +148,7 @@ namespace SharedProperty.Serializer.SpanJson
             return result;
         }
 
-        public byte[] Serialize(IEnumerable<Property> properties)
+        public byte[] Serialize(IEnumerable<IProperty> properties)
         {
             var writer = new JsonWriter<byte>(short.MaxValue);
             writer.WriteBeginObject();
@@ -159,7 +159,7 @@ namespace SharedProperty.Serializer.SpanJson
             return writer.ToByteArray();
         }
 
-        private void writeProperties(ref JsonWriter<byte> writer, IEnumerable<Property> properties)
+        private void writeProperties(ref JsonWriter<byte> writer, IEnumerable<IProperty> properties)
         {
             writer.WriteUtf8Name(SerializeConstant.VersionName);
             writer.WriteUtf8String(SerializeConstant.Version.ToString());
@@ -182,7 +182,7 @@ namespace SharedProperty.Serializer.SpanJson
             }
         }
 
-        private void writePropertiesValueWithLargeType(ref JsonWriter<byte> writer, IEnumerable<Property> properties)
+        private void writePropertiesValueWithLargeType(ref JsonWriter<byte> writer, IEnumerable<IProperty> properties)
         {
             writer.WriteUtf8BeginArray();
             int count = 0;
@@ -212,7 +212,7 @@ namespace SharedProperty.Serializer.SpanJson
             writer.WriteUtf8EndArray();
         }
 
-        private void writePropertiesValueWithShortType(ref JsonWriter<byte> writer, IEnumerable<Property> properties)
+        private void writePropertiesValueWithShortType(ref JsonWriter<byte> writer, IEnumerable<IProperty> properties)
         {
             writer.WriteUtf8BeginObject();
             int count = 0;

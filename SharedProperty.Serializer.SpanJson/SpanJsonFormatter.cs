@@ -16,7 +16,7 @@ namespace SharedProperty.Serializer.SpanJson
             jsonFormatter = jsonFormatterResolver.GetFormatter<T>();
         }
 
-        public void Write(ref JsonWriter<byte> writer, Property property)
+        public void Write(ref JsonWriter<byte> writer, IProperty property)
         {
             if (property is Property<T> typedProperty)
             {
@@ -28,7 +28,7 @@ namespace SharedProperty.Serializer.SpanJson
             }
         }
 
-        public Property Read(ref JsonReader<byte> reader)
+        public IProperty Read(ref JsonReader<byte> reader)
         {
             T value = jsonFormatter.Deserialize(ref reader);
             return new Property<T>

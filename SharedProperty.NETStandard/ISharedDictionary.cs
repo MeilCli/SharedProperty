@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace SharedProperty.NETStandard
 {
-    public interface ISharedDictionary : IEnumerable<Property>
+    public interface ISharedDictionary : IEnumerable<IProperty>
     {
         Task LoadFromStorageAsync();
 

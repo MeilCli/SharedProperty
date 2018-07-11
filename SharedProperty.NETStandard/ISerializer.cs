@@ -6,8 +6,8 @@ namespace SharedProperty.NETStandard
     {
         IFormatterResolver FormatterResolver { get; }
 
-        byte[] Serialize(IEnumerable<Property> properties);
+        byte[] Serialize(IEnumerable<IProperty> properties);
 
-        IEnumerable<Property> Deserialize(byte[] binary);
+        IEnumerable<IProperty> Deserialize(byte[] binary);
     }
 }

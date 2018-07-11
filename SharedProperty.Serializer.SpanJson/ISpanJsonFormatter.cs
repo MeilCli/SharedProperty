@@ -5,8 +5,8 @@ namespace SharedProperty.Serializer.SpanJson
 {
     interface ISpanJsonFormatter : IFormatter
     {
-        void Write(ref JsonWriter<byte> writer, Property property);
+        void Write(ref JsonWriter<byte> writer, IProperty property);
 
-        Property Read(ref JsonReader<byte> reader);
+        IProperty Read(ref JsonReader<byte> reader);
     }
 }

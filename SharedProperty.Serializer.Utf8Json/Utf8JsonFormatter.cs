@@ -15,7 +15,7 @@ namespace SharedProperty.Serializer.Utf8Json
             jsonFormatter = jsonFormatterResolver.GetFormatterWithVerify<T>();
         }
 
-        public void Write(ref JsonWriter writer, Property property)
+        public void Write(ref JsonWriter writer, IProperty property)
         {
             if (property is Property<T> typedProperty)
             {
@@ -27,7 +27,7 @@ namespace SharedProperty.Serializer.Utf8Json
             }
         }
 
-        public Property Read(ref JsonReader reader)
+        public IProperty Read(ref JsonReader reader)
         {
             T value = jsonFormatter.Deserialize(ref reader, jsonFormatterResolver);
             return new Property<T>

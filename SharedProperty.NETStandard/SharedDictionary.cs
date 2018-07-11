@@ -13,7 +13,7 @@ namespace SharedProperty.NETStandard
         private readonly IStorage storage;
         private readonly IConverter converter;
         private readonly string filePath;
-        private readonly Dictionary<string, Property> properties = new Dictionary<string, Property>();
+        private readonly Dictionary<string, IProperty> properties = new Dictionary<string, IProperty>();
 
         public SharedDictionary(ISerializer serializer, IStorage storage, IConverter converter)
         {
@@ -97,8 +97,8 @@ namespace SharedProperty.NETStandard
 
         public T GetProperty<T>(string key)
         {
-            properties.TryGetValue(key, out Property v);
-            if (v is Property<T> property)
+            properties.TryGetValue(key, out IProperty v);
+            if (v is IProperty<T> property)
             {
                 return property.Value;
             }
@@ -123,8 +123,8 @@ namespace SharedProperty.NETStandard
 
         public bool TryGetProperty<T>(string key, out T value)
         {
-            properties.TryGetValue(key, out Property v);
-            if (v is Property<T> property)
+            properties.TryGetValue(key, out IProperty v);
+            if (v is IProperty<T> property)
             {
                 value = property.Value;
                 return true;
@@ -152,7 +152,7 @@ namespace SharedProperty.NETStandard
 
         public void SetProperty<T>(string key, T value)
         {
-            if (properties.TryGetValue(key, out Property v) && v is Property<T> targetProperty)
+            if (properties.TryGetValue(key, out IProperty v) && v is IProperty<T> targetProperty)
             {
                 targetProperty.Value = value;
                 return;
@@ -181,7 +181,7 @@ namespace SharedProperty.NETStandard
             }
         }
 
-        public IEnumerator<Property> GetEnumerator()
+        public IEnumerator<IProperty> GetEnumerator()
         {
             return properties.Values.GetEnumerator();
         }

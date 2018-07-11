@@ -5,8 +5,8 @@ namespace SharedProperty.Serializer.Utf8Json
 {
     interface IUtf8JsonFormatter : IFormatter
     {
-        void Write(ref JsonWriter writer, Property property);
+        void Write(ref JsonWriter writer, IProperty property);
 
-        Property Read(ref JsonReader reader);
+        IProperty Read(ref JsonReader reader);
     }
 }
