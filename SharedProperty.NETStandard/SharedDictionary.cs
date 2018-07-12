@@ -102,10 +102,17 @@ namespace SharedProperty.NETStandard
             {
                 return property.Value;
             }
-            else
+
+            // Upcast and Covariance cast and Contravariance cast
+            if (v.Value is T)
             {
-                throw new KeyNotFoundException($"not found key:{key} or value");
+                return (T)v.Value;
             }
+
+            // ToDo: implicit number convert
+            // ToDo: implicit cast check(Using reflection Op_implicit method)
+
+            throw new KeyNotFoundException($"not found key:{key} or value");
         }
 
         public async Task<T> GetPropertyAsync<T>(string key)
@@ -129,11 +136,19 @@ namespace SharedProperty.NETStandard
                 value = property.Value;
                 return true;
             }
-            else
+
+            // Upcast and Covariance cast and Contravariance cast
+            if (v.Value is T)
             {
-                value = default;
-                return false;
+                value = (T)v.Value;
+                return true;
             }
+
+            // ToDo: implicit number convert
+            // ToDo: implicit cast check(Using reflection Op_implicit method)
+
+            value = default;
+            return false;
         }
 
         public async Task<(bool isSuccess, T value)> TryGetPropertyAsync<T>(string key)
