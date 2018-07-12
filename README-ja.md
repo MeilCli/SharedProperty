@@ -41,7 +41,7 @@ WriteLine(sharedDictionary.GetProperty<int>("number"));
 WriteLine(sharedDictionary.GetProperty<Data>("data"));
 WriteLine(sharedDictionary.GetProperty<List<int>>("list").Count);
 ```
-現在のところ型パラメーターは暗黙的な型変換に対応していません。そのため正確な数値型などを指定する櫃夜があります。
+現在のところ型パラメーターは暗黙的な型変換に対応していません。そのため正確な数値型などを指定する必要があります。
 
 ### Serializer
 #### Utf8Json
