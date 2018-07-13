@@ -103,7 +103,7 @@ namespace SharedProperty.NETStandard
                 return typedProperty.Value;
             }
 
-            // Upcast and Covariance cast and Contravariance cast
+            // Upcast and Covariance cast and Contravariance cast and Nullable cast
             if (property.Value is T)
             {
                 return (T)property.Value;
@@ -143,7 +143,7 @@ namespace SharedProperty.NETStandard
                 return true;
             }
 
-            // Upcast and Covariance cast and Contravariance cast
+            // Upcast and Covariance cast and Contravariance cast and Nullable cast
             if (property.Value is T)
             {
                 value = (T)property.Value;
