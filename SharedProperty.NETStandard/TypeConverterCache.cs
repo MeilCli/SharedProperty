@@ -4,10 +4,9 @@ using System.Collections;
 
 namespace SharedProperty.NETStandard
 {
-    public static class TypeConverterCache<T>
+    public static class TypeConverterCache
     {
-        public static ITypeConverter TypeConverter { get; }
-        private static readonly Hashtable hashtable = new Hashtable {
+        internal static readonly Hashtable TypeConverters = new Hashtable {
             { typeof(double), new DoubleTypeConverter() },
             { typeof(decimal), new DecimalTypeConverter() },
             { typeof(float), new FloatTypeConverter() },
@@ -18,6 +17,11 @@ namespace SharedProperty.NETStandard
             { typeof(short), new ShortTypeConverter() },
             { typeof(ushort), new UnsignedShortTypeConverter() }
         };
+    }
+
+    public static class TypeConverterCache<T>
+    {
+        public static ITypeConverter TypeConverter { get; }
 
         static TypeConverterCache()
         {
@@ -26,7 +30,7 @@ namespace SharedProperty.NETStandard
 
         private static ITypeConverter toTypeConverter(Type type)
         {
-            return (ITypeConverter)hashtable[type];
+            return (ITypeConverter)TypeConverterCache.TypeConverters[type];
         }
     }
 }
