@@ -13,7 +13,6 @@ namespace SharedProperty.NETStandard
         private readonly IFormatterResolver formatterResolver;
         private readonly IStorage storage;
         private readonly IConverter converter;
-        private readonly string filePath;
         private readonly Dictionary<string, IProperty> properties = new Dictionary<string, IProperty>();
 
         public SharedDictionary(ISerializer serializer, IStorage storage, IConverter converter)
