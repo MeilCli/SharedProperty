@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace SharedProperty.NETStandard.TypeConverter
+namespace SharedProperty.NETStandard.TypeConverters
 {
-    public class DecimalTypeConverter : ITypeConverter<decimal>
+    public class FloatTypeConverter : ITypeConverter<float>
     {
-        public decimal ConvertAndGetValue(IProperty property)
+        public float ConvertAndGetValue(IProperty property)
         {
             if (property is IProperty<byte> byteProperty)
             {

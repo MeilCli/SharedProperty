@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SharedProperty.NETStandard.TypeConverter
+namespace SharedProperty.NETStandard.TypeConverters
 {
     public class ShortTypeConverter : ITypeConverter<short>
     {

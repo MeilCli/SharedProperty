@@ -1,6 +1,6 @@
 ﻿using System.Security.Cryptography;
 
-namespace SharedProperty.NETStandard.Converter
+namespace SharedProperty.NETStandard.Converters
 {
     public class AesCryptoConverter : SymmetricCryptoConverter
     {

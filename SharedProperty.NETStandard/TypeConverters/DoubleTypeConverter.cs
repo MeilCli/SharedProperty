@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace SharedProperty.NETStandard.TypeConverter
+namespace SharedProperty.NETStandard.TypeConverters
 {
-    public class FloatTypeConverter : ITypeConverter<float>
+    public class DoubleTypeConverter : ITypeConverter<double>
     {
-        public float ConvertAndGetValue(IProperty property)
+        public double ConvertAndGetValue(IProperty property)
         {
             if (property is IProperty<byte> byteProperty)
             {
@@ -45,6 +45,11 @@ namespace SharedProperty.NETStandard.TypeConverter
             if (property is IProperty<char> charProperty)
             {
                 return charProperty.Value;
+            }
+
+            if (property is IProperty<float> floatProperty)
+            {
+                return floatProperty.Value;
             }
 
             throw new InvalidOperationException("not cast type");

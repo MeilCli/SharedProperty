@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace SharedProperty.NETStandard.TypeConverter
+namespace SharedProperty.NETStandard.TypeConverters
 {
-    public class IntTypeConverter : ITypeConverter<int>
+    public class DecimalTypeConverter : ITypeConverter<decimal>
     {
-        public int ConvertAndGetValue(IProperty property)
+        public decimal ConvertAndGetValue(IProperty property)
         {
             if (property is IProperty<byte> byteProperty)
             {
@@ -22,6 +22,24 @@ namespace SharedProperty.NETStandard.TypeConverter
             if (property is IProperty<ushort> ushortProperty)
             {
                 return ushortProperty.Value;
+            }
+
+            if (property is IProperty<int> intProperty)
+            {
+                return intProperty.Value;
+            }
+            if (property is IProperty<uint> uintProperty)
+            {
+                return uintProperty.Value;
+            }
+
+            if (property is IProperty<long> longProperty)
+            {
+                return longProperty.Value;
+            }
+            if (property is IProperty<ulong> ulongProperty)
+            {
+                return ulongProperty.Value;
             }
 
             if (property is IProperty<char> charProperty)

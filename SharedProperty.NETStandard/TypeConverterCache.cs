@@ -1,4 +1,4 @@
-﻿using SharedProperty.NETStandard.TypeConverter;
+﻿using SharedProperty.NETStandard.TypeConverters;
 using System;
 using System.Collections;
 

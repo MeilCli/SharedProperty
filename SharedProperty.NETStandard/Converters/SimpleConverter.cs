@@ -1,4 +1,4 @@
-﻿namespace SharedProperty.NETStandard.Converter
+﻿namespace SharedProperty.NETStandard.Converters
 {
     public class SimpleConverter : IConverter
     {

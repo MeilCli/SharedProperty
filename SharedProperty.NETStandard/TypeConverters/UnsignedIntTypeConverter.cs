@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace SharedProperty.NETStandard.TypeConverter
+namespace SharedProperty.NETStandard.TypeConverters
 {
-    public class UnsignedLongTypeConverter : ITypeConverter<ulong>
+    public class UnsignedIntTypeConverter : ITypeConverter<uint>
     {
-        public ulong ConvertAndGetValue(IProperty property)
+        public uint ConvertAndGetValue(IProperty property)
         {
             if (property is IProperty<byte> byteProperty)
             {
@@ -14,11 +14,6 @@ namespace SharedProperty.NETStandard.TypeConverter
             if (property is IProperty<ushort> ushortProperty)
             {
                 return ushortProperty.Value;
-            }
-
-            if (property is IProperty<uint> uintProperty)
-            {
-                return uintProperty.Value;
             }
 
             if (property is IProperty<char> charProperty)
