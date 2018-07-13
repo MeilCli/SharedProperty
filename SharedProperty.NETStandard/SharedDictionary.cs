@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -154,8 +155,16 @@ namespace SharedProperty.NETStandard
             ITypeConverter typeConverter = TypeConverterCache<T>.TypeConverter;
             if (typeConverter is ITypeConverter<T> typedTypeConverter)
             {
-                value = typedTypeConverter.ConvertAndGetValue(property);
-                return true;
+                try
+                {
+                    value = typedTypeConverter.ConvertAndGetValue(property);
+                    return true;
+                }
+                catch (Exception)
+                {
+                    value = default;
+                    return false;
+                }
             }
 
             // ToDo: implicit cast check(Using reflection Op_implicit method)
