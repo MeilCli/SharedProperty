@@ -97,19 +97,25 @@ namespace SharedProperty.NETStandard
 
         public T GetProperty<T>(string key)
         {
-            properties.TryGetValue(key, out IProperty v);
-            if (v is IProperty<T> property)
+            properties.TryGetValue(key, out IProperty property);
+            if (property is IProperty<T> typedProperty)
             {
-                return property.Value;
+                return typedProperty.Value;
             }
 
             // Upcast and Covariance cast and Contravariance cast
-            if (v.Value is T)
+            if (property.Value is T)
             {
-                return (T)v.Value;
+                return (T)property.Value;
             }
 
-            // ToDo: implicit number convert
+            // implicit number cast
+            ITypeConverter typeConverter = TypeConverterCache<T>.TypeConverter;
+            if (typeConverter is ITypeConverter<T> typedTypeConverter)
+            {
+                return typedTypeConverter.ConvertAndGetValue(property);
+            }
+
             // ToDo: implicit cast check(Using reflection Op_implicit method)
 
             throw new KeyNotFoundException($"not found key:{key} or value");
@@ -130,21 +136,28 @@ namespace SharedProperty.NETStandard
 
         public bool TryGetProperty<T>(string key, out T value)
         {
-            properties.TryGetValue(key, out IProperty v);
-            if (v is IProperty<T> property)
+            properties.TryGetValue(key, out IProperty property);
+            if (property is IProperty<T> typedProperty)
             {
-                value = property.Value;
+                value = typedProperty.Value;
                 return true;
             }
 
             // Upcast and Covariance cast and Contravariance cast
-            if (v.Value is T)
+            if (property.Value is T)
             {
-                value = (T)v.Value;
+                value = (T)property.Value;
                 return true;
             }
 
-            // ToDo: implicit number convert
+            // implicit number cast
+            ITypeConverter typeConverter = TypeConverterCache<T>.TypeConverter;
+            if (typeConverter is ITypeConverter<T> typedTypeConverter)
+            {
+                value = typedTypeConverter.ConvertAndGetValue(property);
+                return true;
+            }
+
             // ToDo: implicit cast check(Using reflection Op_implicit method)
 
             value = default;
