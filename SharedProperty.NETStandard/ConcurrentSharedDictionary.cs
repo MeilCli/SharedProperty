@@ -97,5 +97,18 @@
                 SemaphoreSlim.Release();
             }
         }
+
+        public override void ClearProperty()
+        {
+            SemaphoreSlim.Wait();
+            try
+            {
+                base.ClearProperty();
+            }
+            finally
+            {
+                SemaphoreSlim.Release();
+            }
+        }
     }
 }

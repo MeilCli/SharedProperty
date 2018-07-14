@@ -22,5 +22,7 @@ namespace SharedProperty.NETStandard
         void SetProperty<T>(string key, T value);
 
         bool RemoveProperty(string key);
+
+        void ClearProperty();
     }
 }
