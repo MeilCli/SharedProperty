@@ -25,7 +25,7 @@ await sharedDictionary.LoadFromStorageAsync();
 await sharedDictionary.SaveToStorageAsync();
 ```
 
-値を設定するには`SetProperty`メソッドまたは`SetPropertyAsync`メソッドを利用します。
+値を設定するには`SetProperty`メソッドを利用します。
 ```csharp
 sharedDictionary.SetProperty("text", "sssss");
 sharedDictionary.SetProperty("number", 1234);
@@ -34,14 +34,13 @@ sharedDictionary.SetProperty("list", new List<int> { 1, 2, 3, 4 });
 ```
 コレクションやユーザー定義型なども利用できますが、各Serializerが利用しているJsonライブラリーによって制限を受けます。
 
-値を取得するには`GetPropety`, `GetPropertyAsync`, `TryGetProperty`, `TryGetPropertyAsync`メソッドを利用します。
+値を取得するには`GetPropety`メソッドまたは`TryGetProperty`メソッドを利用します。
 ```csharp
 WriteLine(sharedDictionary.GetProperty<string>("text"));
 WriteLine(sharedDictionary.GetProperty<int>("number"));
 WriteLine(sharedDictionary.GetProperty<Data>("data"));
 WriteLine(sharedDictionary.GetProperty<List<int>>("list").Count);
 ```
-現在のところ型パラメーターは暗黙的な型変換に対応していません。そのため正確な数値型などを指定する必要があります。
 
 ### Serializer
 #### Utf8Json
@@ -71,14 +70,38 @@ SpanJsonではUTF-16にも対応していますが速度が遅くなるため、
 強度なセキュリティを保つには開発者は必ずアプリケーション固有の暗号鍵を使用する必要があります。
 
 ### スレッドセーフ
-現在の実装ではasyncメソッドはスレッドセーフな実装です。
-しかし同期メソッドはスレッドセーフではない実装なので、混在する使用は気を付ける必要があります。
+`SharedDictionary`クラスはスレッドセーフではありません。複数スレッドで操作する場合は、`ConcurrentSharedDictionary`クラスを使用してください。
 
 ### 注意
-現在の実装では`LoadFromStorageAsync`に失敗したらデータの復元ができません。また、SharedPropertyはデータのマイグレーションに対応していません。  
+#### 暗黙的型変換
+現在、SharedPropertyでは値の取得時に暗黙的型変換が可能です。
+
+```csharp
+int i = 1234;
+sharedDictionary.SetProperty("number", i);
+// 内部的にはintで保持されている
+long l = sharedDictionary.GetProperty<long>("number")
+```
+
+このような、コードを書くこともできます。
+
+しかし、パフォーマンスがいいとは言えません。また、今後削除する可能性のある機能でもあるので、**正確に型指定することを推奨します。**
+
+対応している暗黙的型変換
+- アップキャスト
+- 共変性・反変性
+- Nullable化
+- [暗黙的な数値変換](https://docs.microsoft.com/ja-jp/dotnet/csharp/language-reference/keywords/implicit-numeric-conversions-table)
+- implicit operator
+
+
+#### マイグレーション
+SharedPropertyはデータのマイグレーションに対応していません。  
 そのため、ユーザー定義型を保存する際は注意する必要があります。
 
 トークンやIdなどの情報はなるべく基本データ型で保存し、ユーザー定義型は別ファイルを設定したSharedDictionaryに保存するのがより安全です。
+
+また、ファイル読み込み時に不明な型のデータは読み込みがスキップされます。
 
 ## ライセンス
 このライブラリーは[MIT License](LICENSE.txt)によって公開されています。
