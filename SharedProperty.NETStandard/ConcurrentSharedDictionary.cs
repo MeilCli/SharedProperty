@@ -33,12 +33,12 @@
             }
         }
 
-        public override bool ContainsKey(string key)
+        public override bool ContainsProperty(string key)
         {
             SemaphoreSlim.Wait();
             try
             {
-                return base.ContainsKey(key);
+                return base.ContainsProperty(key);
             }
             finally
             {

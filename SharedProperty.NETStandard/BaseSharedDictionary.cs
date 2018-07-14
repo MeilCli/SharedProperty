@@ -77,7 +77,7 @@ namespace SharedProperty.NETStandard
             }
         }
 
-        public virtual bool ContainsKey(string key)
+        public virtual bool ContainsProperty(string key)
         {
             return properties.ContainsKey(key);
         }

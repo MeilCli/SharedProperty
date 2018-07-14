@@ -13,7 +13,7 @@ namespace SharedProperty.NETStandard
 
         void RawImport(byte[] binary);
 
-        bool ContainsKey(string key);
+        bool ContainsProperty(string key);
 
         T GetProperty<T>(string key);
 
