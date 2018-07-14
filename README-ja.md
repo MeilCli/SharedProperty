@@ -42,25 +42,25 @@ WriteLine(sharedDictionary.GetProperty<Data>("data"));
 WriteLine(sharedDictionary.GetProperty<List<int>>("list").Count);
 ```
 
-### Serializer
-#### Utf8Json
+## Serializer
+### Utf8Json
 Utf8Jsonは一般的な環境ではトップレベルに高速です。
 
 基本的には`Utf8JsonSerializer.Default`を指定すればいいですが、`JsonFormatterResolver`を変更したい場合は`Utf8JsonFormatterResolver`のコンストラクターに渡すように変更してください。  
 ユーザー定義型のSerialize方法などは[Utf8Jsonの説明](https://github.com/neuecc/Utf8Json/blob/master/README.md)を参考にしてください。
 
-#### SpanJson
+### SpanJson
 .NET Core 2.1においてはSpanJsonのほうがUtf8Jsonより高速のようです。そのためSharedPropertyはSpanJsonもサポートしています。  
 SpanJsonではUTF-16にも対応していますが速度が遅くなるため、UTF-8のみのサポートとしています。
 
 基本的には`SpanJsonSerializer.Default`を指定すればいいですが、`JSonFormatterResolver`を変更したい場合は`SpanJsonFormatterResolver<>`の型パラメーターで指定してください。  
 ユーザー定義型のSerizalize方法などは[SpanJsonの説明](https://github.com/Tornhoof/SpanJson/blob/master/README.md)を参考にしてください
 
-### Storage
+## Storage
 標準では`FileStorage`と`IsolatedFileStorage`を用意しています。  
 アプリケーションデータ固有のデータは`IsolatedFileStorage`の利用を勧めますが、ファイルパスで保存場所を指定したい場合は`FileStorage`を利用してください。
 
-### Converter
+## Converter
 難読化や暗号化のために標準ではいくつかのConverterを用意しています。
 
 難読化のためなら`SimpleConverter.Default`, `AesCryptoConverter.Default`, `RijndaelCryptoConverter.Default`が使えます。
@@ -69,11 +69,11 @@ SpanJsonではUTF-16にも対応していますが速度が遅くなるため、
 暗号化には`AesCryptoConverter`または`RijndaelCryptoConverter`が使用できます。  
 強度なセキュリティを保つには開発者は必ずアプリケーション固有の暗号鍵を使用する必要があります。
 
-### スレッドセーフ
+## スレッドセーフ
 `SharedDictionary`クラスはスレッドセーフではありません。複数スレッドで操作する場合は、`ConcurrentSharedDictionary`クラスを使用してください。
 
-### 注意
-#### 暗黙的型変換
+## 注意
+### 暗黙的型変換
 現在、SharedPropertyでは値の取得時に暗黙的型変換が可能です。
 
 ```csharp
@@ -95,7 +95,7 @@ long l = sharedDictionary.GetProperty<long>("number")
 - implicit operator
 
 
-#### マイグレーション
+### マイグレーション
 SharedPropertyはデータのマイグレーションに対応していません。  
 そのため、ユーザー定義型を保存する際は注意する必要があります。
 
