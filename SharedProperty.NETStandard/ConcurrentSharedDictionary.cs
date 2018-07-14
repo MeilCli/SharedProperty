@@ -2,6 +2,20 @@
 {
     public sealed class ConcurrentSharedDictionary : BaseSharedDictionary
     {
+        public override int PropertyCount {
+            get {
+                SemaphoreSlim.Wait();
+                try
+                {
+                    return base.PropertyCount;
+                }
+                finally
+                {
+                    SemaphoreSlim.Release();
+                }
+            }
+        }
+
         public ConcurrentSharedDictionary(ISerializer serializer, IStorage storage, IConverter converter)
             : base(serializer, storage, converter)
         {

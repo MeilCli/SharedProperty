@@ -15,6 +15,8 @@ namespace SharedProperty.NETStandard
         private readonly IConverter converter;
         private readonly Dictionary<string, IProperty> properties = new Dictionary<string, IProperty>();
 
+        public virtual int PropertyCount => properties.Count;
+
         public BaseSharedDictionary(ISerializer serializer, IStorage storage, IConverter converter)
         {
             this.serializer = serializer;

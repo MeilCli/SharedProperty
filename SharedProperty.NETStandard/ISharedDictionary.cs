@@ -5,6 +5,8 @@ namespace SharedProperty.NETStandard
 {
     public interface ISharedDictionary : IEnumerable<IProperty>
     {
+        int PropertyCount { get; }
+
         Task LoadFromStorageAsync();
 
         Task SaveToStorageAsync();
