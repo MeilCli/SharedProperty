@@ -116,7 +116,11 @@ namespace SharedProperty.NETStandard
                 return typedTypeConverter.ConvertAndGetValue(property);
             }
 
-            // ToDo: implicit cast check(Using reflection Op_implicit method)
+            // implicit operating cast
+            if (TypeCache<T>.CanImplicitOperatingConvert(property.Type))
+            {
+                return TypeCache<T>.GetPropertyConvertAndGetValueDelegate(property.Type)(property);
+            }
 
             throw new KeyNotFoundException($"not found key:{key} or value");
         }
@@ -166,7 +170,12 @@ namespace SharedProperty.NETStandard
                 }
             }
 
-            // ToDo: implicit cast check(Using reflection Op_implicit method)
+            // implicit operating cast
+            if (TypeCache<T>.CanImplicitOperatingConvert(property.Type))
+            {
+                value = TypeCache<T>.GetPropertyConvertAndGetValueDelegate(property.Type)(property);
+                return true;
+            }
 
             value = default;
             return false;
