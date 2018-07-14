@@ -84,5 +84,18 @@
                 SemaphoreSlim.Release();
             }
         }
+
+        public override bool RemoveProperty(string key)
+        {
+            SemaphoreSlim.Wait();
+            try
+            {
+                return base.RemoveProperty(key);
+            }
+            finally
+            {
+                SemaphoreSlim.Release();
+            }
+        }
     }
 }

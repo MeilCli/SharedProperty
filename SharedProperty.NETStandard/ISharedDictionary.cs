@@ -20,5 +20,7 @@ namespace SharedProperty.NETStandard
         bool TryGetProperty<T>(string key, out T value);
 
         void SetProperty<T>(string key, T value);
+
+        bool RemoveProperty(string key);
     }
 }

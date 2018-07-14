@@ -182,6 +182,11 @@ namespace SharedProperty.NETStandard
             properties[key] = property;
         }
 
+        public virtual bool RemoveProperty(string key)
+        {
+            return properties.Remove(key);
+        }
+
         public IEnumerator<IProperty> GetEnumerator()
         {
             return properties.Values.GetEnumerator();
