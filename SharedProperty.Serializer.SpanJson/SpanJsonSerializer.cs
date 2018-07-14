@@ -91,6 +91,7 @@ namespace SharedProperty.Serializer.SpanJson
                 string key = null;
                 string type = null;
                 IProperty property = null;
+                ISpanJsonFormatter formatter = null;
                 reader.ReadUtf8BeginObjectOrThrow();
                 int objectCount = 0;
                 while (reader.TryReadUtf8IsEndObjectOrValueSeparator(ref objectCount) == false)
@@ -109,13 +110,25 @@ namespace SharedProperty.Serializer.SpanJson
                             {
                                 throw new InvalidOperationException("value must be last json order");
                             }
-                            ISpanJsonFormatter formatter = jsonFormatterResolver.Resolve(type);
+
+                            formatter = jsonFormatterResolver.Resolve(type);
+                            if (formatter == null)
+                            {
+                                reader.ReadUtf8Dynamic();
+                                break;
+                            }
+
                             property = formatter.Read(ref reader);
                             property.Type = type;
                             break;
                     }
                 }
 
+                if (formatter == null)
+                {
+                    // skip unknown value
+                    continue;
+                }
                 if (property == null)
                 {
                     throw new InvalidOperationException("not found value");
@@ -137,7 +150,16 @@ namespace SharedProperty.Serializer.SpanJson
 
                 reader.ReadUtf8BeginObjectOrThrow();
                 string type = reader.ReadUtf8EscapedName();
+
                 ISpanJsonFormatter formatter = jsonFormatterResolver.Resolve(type);
+                if (formatter == null)
+                {
+                    // skip unknown value
+                    reader.ReadUtf8Dynamic();
+                    reader.ReadUtf8IsEndObject();
+                    continue;
+                }
+
                 IProperty property = formatter.Read(ref reader);
                 reader.ReadUtf8IsEndObject();
 
@@ -192,6 +214,13 @@ namespace SharedProperty.Serializer.SpanJson
                 {
                     writer.WriteUtf8ValueSeparator();
                 }
+
+                var spanJsonFormatter = property.Formatter as ISpanJsonFormatter ?? jsonFormatterResolver.Resolve(property.Type);
+                if (spanJsonFormatter == null)
+                {
+                    continue;
+                }
+
                 writer.WriteUtf8BeginObject();
 
                 writer.WriteUtf8Name(SerializeConstant.KeyName);
@@ -203,7 +232,6 @@ namespace SharedProperty.Serializer.SpanJson
                 writer.WriteUtf8ValueSeparator();
 
                 writer.WriteUtf8Name(SerializeConstant.ValueName);
-                var spanJsonFormatter = property.Formatter as ISpanJsonFormatter ?? jsonFormatterResolver.Resolve(property.Type);
                 spanJsonFormatter.Write(ref writer, property);
 
                 writer.WriteUtf8EndObject();
@@ -222,11 +250,17 @@ namespace SharedProperty.Serializer.SpanJson
                 {
                     writer.WriteUtf8ValueSeparator();
                 }
+
+                var spanJsonFormatter = property.Formatter as ISpanJsonFormatter ?? jsonFormatterResolver.Resolve(property.Type);
+                if (spanJsonFormatter == null)
+                {
+                    continue;
+                }
+
                 writer.WriteUtf8Name(property.Key);
 
                 writer.WriteUtf8BeginObject();
                 writer.WriteUtf8Name(property.Type);
-                var spanJsonFormatter = property.Formatter as ISpanJsonFormatter ?? jsonFormatterResolver.Resolve(property.Type);
                 spanJsonFormatter.Write(ref writer, property);
                 writer.WriteUtf8EndObject();
 

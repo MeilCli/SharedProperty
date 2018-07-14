@@ -27,11 +27,17 @@ namespace SharedProperty.Sample.NETCore.Console
             sharedDictionary.SetProperty("number", 1234);
             sharedDictionary.SetProperty("data", new Data());
             sharedDictionary.SetProperty("list", new List<int> { 1, 2, 3, 4 });
+            sharedDictionary.SetProperty("aa", 1223);
 
             await sharedDictionary.SaveToStorageAsync();
 
             sharedDictionary = new SharedDictionary(Utf8JsonSerializer.Default, FileStorage.Default, null);
             await sharedDictionary.LoadFromStorageAsync();
+
+            foreach (var property in sharedDictionary)
+            {
+                WriteLine(property.Key);
+            }
 
             WriteLine(sharedDictionary.GetProperty<string>("text"));
             WriteLine(sharedDictionary.GetProperty<int>("number"));

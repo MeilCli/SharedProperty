@@ -46,7 +46,13 @@ namespace SharedProperty.Serializer.SpanJson
             }
             else
             {
-                Type formatterType = typeof(SpanJsonFormatter<,>).MakeGenericType(Type.GetType(fullNameType), typeof(TResolver));
+                Type targetType = Type.GetType(fullNameType);
+                if (targetType == null)
+                {
+                    return null;
+                }
+
+                Type formatterType = typeof(SpanJsonFormatter<,>).MakeGenericType(targetType, typeof(TResolver));
                 formatter = Activator.CreateInstance(formatterType, jsonFormatterResolver) as ISpanJsonFormatter;
                 formatterCache[fullNameType] = formatter;
                 return formatter;

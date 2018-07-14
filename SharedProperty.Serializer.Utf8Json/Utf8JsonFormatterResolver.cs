@@ -7,14 +7,14 @@ namespace SharedProperty.Serializer.Utf8Json
 {
     public class Utf8JsonFormatterResolver : IFormatterResolver
     {
-        private readonly IJsonFormatterResolver jsonFormatterResolver;
+        internal readonly IJsonFormatterResolver JsonFormatterResolver;
         private readonly Dictionary<string, IUtf8JsonFormatter> formatterCache = new Dictionary<string, IUtf8JsonFormatter>();
 
         public Utf8JsonFormatterResolver() : this(global::Utf8Json.Resolvers.StandardResolver.Default) { }
 
         public Utf8JsonFormatterResolver(IJsonFormatterResolver jsonFormatterResolver)
         {
-            this.jsonFormatterResolver = jsonFormatterResolver;
+            this.JsonFormatterResolver = jsonFormatterResolver;
         }
 
         internal IUtf8JsonFormatter Resolve<T>()
@@ -25,7 +25,7 @@ namespace SharedProperty.Serializer.Utf8Json
             }
             else
             {
-                formatter = new Utf8JsonFormatter<T>(jsonFormatterResolver);
+                formatter = new Utf8JsonFormatter<T>(JsonFormatterResolver);
                 formatterCache[TypeCache<T>.FullName] = formatter;
                 return formatter;
             }
@@ -44,8 +44,14 @@ namespace SharedProperty.Serializer.Utf8Json
             }
             else
             {
-                Type formatterType = typeof(Utf8JsonFormatter<>).MakeGenericType(Type.GetType(fullNameType));
-                formatter = Activator.CreateInstance(formatterType, jsonFormatterResolver) as IUtf8JsonFormatter;
+                Type targetType = Type.GetType(fullNameType);
+                if (targetType == null)
+                {
+                    return null;
+                }
+
+                Type formatterType = typeof(Utf8JsonFormatter<>).MakeGenericType(targetType);
+                formatter = Activator.CreateInstance(formatterType, JsonFormatterResolver) as IUtf8JsonFormatter;
                 formatterCache[fullNameType] = formatter;
                 return formatter;
             }
