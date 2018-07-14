@@ -84,7 +84,11 @@ namespace SharedProperty.NETStandard
 
         public virtual T GetProperty<T>(string key)
         {
-            properties.TryGetValue(key, out IProperty property);
+            if (properties.TryGetValue(key, out IProperty property) == false)
+            {
+                throw new KeyNotFoundException($"not found key: {key}");
+            }
+
             if (property is IProperty<T> typedProperty)
             {
                 return typedProperty.Value;
@@ -109,12 +113,17 @@ namespace SharedProperty.NETStandard
                 return TypeCache<T>.GetPropertyConvertAndGetValueDelegate(property.Type)(property);
             }
 
-            throw new KeyNotFoundException($"not found key:{key} or value");
+            throw new InvalidOperationException($"not target typed value");
         }
 
         public virtual bool TryGetProperty<T>(string key, out T value)
         {
-            properties.TryGetValue(key, out IProperty property);
+            if (properties.TryGetValue(key, out IProperty property) == false)
+            {
+                value = default;
+                return false;
+            }
+
             if (property is IProperty<T> typedProperty)
             {
                 value = typedProperty.Value;
