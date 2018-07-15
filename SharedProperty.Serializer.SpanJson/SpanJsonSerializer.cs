@@ -10,6 +10,11 @@ namespace SharedProperty.Serializer.SpanJson
     {
         public static readonly SpanJsonSerializer<ExcludeNullsOriginalCaseResolver<byte>> Default
             = new SpanJsonSerializer<ExcludeNullsOriginalCaseResolver<byte>>();
+
+        public static SpanJsonSerializer<ExcludeNullsOriginalCaseResolver<byte>> Create(SerializeMode mode)
+        {
+            return new SpanJsonSerializer<ExcludeNullsOriginalCaseResolver<byte>>(mode);
+        }
     }
 
     public class SpanJsonSerializer<TResolver> : ISerializer
