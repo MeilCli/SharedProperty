@@ -20,7 +20,21 @@ namespace SharedProperty.Serializer.Utf8Json
             }
         }
 
-        public static readonly Utf8JsonSerializer Default = new Utf8JsonSerializer();
+
+        private static Utf8JsonSerializer _default;
+        /// <summary>
+        /// creating StandardResolver must be lazy property.
+        /// otherwise, Xamarin.iOS application crush.
+        /// </summary>
+        public static Utf8JsonSerializer Default {
+            get {
+                if (_default == null)
+                {
+                    _default = new Utf8JsonSerializer(new Utf8JsonFormatterResolver(global::Utf8Json.Resolvers.StandardResolver.Default));
+                }
+                return _default;
+            }
+        }
 
         private readonly Utf8JsonFormatterResolver utf8JsonFormatterResolver;
 

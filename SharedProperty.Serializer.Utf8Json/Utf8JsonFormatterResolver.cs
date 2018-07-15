@@ -7,14 +7,22 @@ namespace SharedProperty.Serializer.Utf8Json
 {
     public class Utf8JsonFormatterResolver : IFormatterResolver
     {
+        /// <summary>
+        /// creating StandardResolver must be method.
+        /// otherwise, Xamarin.iOS application crush.
+        /// </summary>
+        /// <returns></returns>
+        private static IJsonFormatterResolver createStandardResolver()
+        {
+            return global::Utf8Json.Resolvers.StandardResolver.Default;
+        }
+
         internal readonly IJsonFormatterResolver JsonFormatterResolver;
         private readonly Dictionary<string, IUtf8JsonFormatter> formatterCache = new Dictionary<string, IUtf8JsonFormatter>();
 
-        public Utf8JsonFormatterResolver() : this(global::Utf8Json.Resolvers.StandardResolver.Default) { }
-
-        public Utf8JsonFormatterResolver(IJsonFormatterResolver jsonFormatterResolver)
+        public Utf8JsonFormatterResolver(IJsonFormatterResolver jsonFormatterResolver = null)
         {
-            this.JsonFormatterResolver = jsonFormatterResolver;
+            JsonFormatterResolver = jsonFormatterResolver ?? createStandardResolver();
         }
 
         internal IUtf8JsonFormatter Resolve<T>()
