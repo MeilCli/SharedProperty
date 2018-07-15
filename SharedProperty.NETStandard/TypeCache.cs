@@ -52,7 +52,7 @@ namespace SharedProperty.NETStandard
             var sb = new StringBuilder();
             sb.Append(type.Namespace);
             sb.Append('.');
-            sb.Append(type.Name);
+            sb.Append(getName(type));
 
             if (0 < type.GenericTypeArguments.Length)
             {
@@ -77,6 +77,15 @@ namespace SharedProperty.NETStandard
             string assemblyFullName = type.Assembly.FullName;
             sb.Append(assemblyFullName.Substring(0, assemblyFullName.IndexOf(',')));
             return sb.ToString();
+        }
+
+        private static string getName(Type type)
+        {
+            if (type.IsNested)
+            {
+                return $"{getName(type.DeclaringType)}+{type.Name}";
+            }
+            return type.Name;
         }
     }
 }
