@@ -99,7 +99,7 @@ Job=Core  Runtime=Core
 | ShortSpanJsonDeserialize | 1,184.5 ns | 19.126 ns | 15.971 ns | 1,161.9 ns | 1,218.4 ns | 0.2270 |     960 B |
 | LargeSpanJsonDeserialize | 1,634.8 ns | 16.720 ns | 12.090 ns | 1,608.7 ns | 1,648.9 ns | 0.3071 |    1296 B |
 
-[SharedProperty.Benchmark.NETCore/SerializeBench.cs](/SharedProperty.Benchmark.NETCore/SerializeBench.cs)
+[SharedProperty.Benchmark.NETCore/SerializerBench.cs](SharedProperty.Benchmark.NETCore/SerializerBench.cs)
 
 また、二つのSerializerを混合して使用する場合は、Utf8JsonとSpanJsonの共通の機能のみを使用する必要があります。
 
