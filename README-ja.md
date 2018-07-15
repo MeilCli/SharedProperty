@@ -43,18 +43,65 @@ WriteLine(sharedDictionary.GetProperty<List<int>>("list").Count);
 ```
 
 ## Serializer
-### Utf8Json
-Utf8Jsonは一般的な環境ではトップレベルに高速です。
+現在、SharedPropertyは以下の二つのSerializerを用意しています。
 
-基本的には`Utf8JsonSerializer.Default`を指定すればいいですが、`JsonFormatterResolver`を変更したい場合は`Utf8JsonFormatterResolver`のコンストラクターに渡すように変更してください。  
-ユーザー定義型のSerialize方法などは[Utf8Jsonの説明](https://github.com/neuecc/Utf8Json/blob/master/README.md)を参考にしてください。
+- SharedProperty.Serializer.Utf8Json
+- SharedProperty.Serializer.SpanJson
+
+### Utf8Json
+.NET Standard向けの高速なJsonSerializerである[Utf8Json](https://github.com/neuecc/Utf8Json)を使用することができます。
+
+SharedDictionaryへの設定には、`Utf8JsonSerializer.Default`を使用するか`Utf8JsonSerializer`のインスタンスを作成してください。
+
+各設定値のSerialize/DeserializeはUtf8Jsonが解決します。
 
 ### SpanJson
-.NET Core 2.1においてはSpanJsonのほうがUtf8Jsonより高速のようです。そのためSharedPropertyはSpanJsonもサポートしています。  
+.NET Core 2.1向けの高速なJsonSerializerである[SpanJson](https://github.com/Tornhoof/SpanJson)を使用することができます。 
 SpanJsonではUTF-16にも対応していますが速度が遅くなるため、UTF-8のみのサポートとしています。
 
-基本的には`SpanJsonSerializer.Default`を指定すればいいですが、`JSonFormatterResolver`を変更したい場合は`SpanJsonFormatterResolver<>`の型パラメーターで指定してください。  
-ユーザー定義型のSerizalize方法などは[SpanJsonの説明](https://github.com/Tornhoof/SpanJson/blob/master/README.md)を参考にしてください
+SharedDicitionaryへの設定には、`SpanJsonSerializer.Default`を使用するか、`SpanJsonSerializer.Create`メソッドを使用するなどして`SpanJsonSerializer`のインスタンスを作成してください。  
+
+各設定値のSerialize/DeserializeはSpanJsonが解決します。
+
+### SerializeMode
+SharedPropertyは二つのJson形式を用意しています。
+
+- SerializeMode.ShortObject
+  - 不要な文字を排除し、サイズを減らした形式です。人間が編集するには難しいかもしれません。
+- SerializeMode.LargeObject
+  - 通常のJsonデータに合わせた形式です。人間が編集する可能性があるならば、こちらの形式がいいかもしれません。
+
+デフォルト値ではSerializeMode.ShortObjectが設定されています。
+
+### SerializerとModeの選び方
+.NET Core 2.1向けアプリケーションでは、どちらのSerializerを利用するか悩むかもしれません。
+以下のベンチマークが参考になります。
+``` ini
+
+BenchmarkDotNet=v0.10.14, OS=Windows 10.0.17134
+Intel Core i7-6700 CPU 3.40GHz (Skylake), 1 CPU, 8 logical and 4 physical cores
+Frequency=3328120 Hz, Resolution=300.4699 ns, Timer=TSC
+.NET Core SDK=2.1.300
+  [Host] : .NET Core 2.1.0 (CoreCLR 4.6.26515.07, CoreFX 4.6.26515.06), 64bit RyuJIT
+  Core   : .NET Core 2.1.0 (CoreCLR 4.6.26515.07, CoreFX 4.6.26515.06), 64bit RyuJIT
+
+Job=Core  Runtime=Core  
+
+```
+|                   Method |       Mean |     Error |    StdDev |        Min |        Max |  Gen 0 | Allocated |
+|------------------------- |-----------:|----------:|----------:|-----------:|-----------:|-------:|----------:|
+|   ShortUtf8JsonSerialize |   752.7 ns |  9.349 ns |  8.287 ns |   740.3 ns |   767.3 ns | 0.0753 |     320 B |
+|   LargeUtf8JsonSerialize | 1,121.4 ns |  6.662 ns |  5.905 ns | 1,111.8 ns | 1,130.4 ns | 0.0896 |     384 B |
+|   ShortSpanJsonSerialize |   778.9 ns |  6.469 ns |  6.051 ns |   772.3 ns |   793.6 ns | 0.0753 |     320 B |
+|   LargeSpanJsonSerialize | 1,364.4 ns | 17.396 ns | 15.421 ns | 1,348.1 ns | 1,404.4 ns | 0.0896 |     384 B |
+| ShortUtf8JsonDeserialize | 1,743.9 ns | 12.912 ns | 12.078 ns | 1,721.0 ns | 1,765.8 ns | 0.2270 |     960 B |
+| LargeUtf8JsonDeserialize | 2,415.6 ns | 19.449 ns | 17.241 ns | 2,392.9 ns | 2,442.9 ns | 0.3052 |    1296 B |
+| ShortSpanJsonDeserialize | 1,184.5 ns | 19.126 ns | 15.971 ns | 1,161.9 ns | 1,218.4 ns | 0.2270 |     960 B |
+| LargeSpanJsonDeserialize | 1,634.8 ns | 16.720 ns | 12.090 ns | 1,608.7 ns | 1,648.9 ns | 0.3071 |    1296 B |
+
+[SharedProperty.Benchmark.NETCore/SerializeBench.cs](/SharedProperty.Benchmark.NETCore/SerializeBench.cs)
+
+また、二つのSerializerを混合して使用する場合は、Utf8JsonとSpanJsonの共通の機能のみを使用する必要があります。
 
 ## Storage
 標準では`FileStorage`と`IsolatedFileStorage`を用意しています。  
@@ -106,12 +153,15 @@ SharedPropertyはデータのマイグレーションに対応していません
 ## ライセンス
 このライブラリーは[MIT License](LICENSE.txt)によって公開されています。
 
-また、パッケージによって使用するライブラリーが異なります。
+#### パッケージ
+パッケージによって使用するライブラリが異なります。
 
-### Serializer.Utf8Json
-- [Utf8Json](https://github.com/neuecc/Utf8Json)
-  - [MIT License](https://github.com/neuecc/Utf8Json/blob/master/LICENSE)によって公開されています
+**SharedProperty.Serializer.Utf8Json**
+- [Utf8Json](https://github.com/neuecc/Utf8Json) : [MIT License](https://github.com/neuecc/Utf8Json/blob/master/LICENSE)によって公開されています
 
-### Serializer.SpanJson
-- [SpanJson](https://github.com/Tornhoof/SpanJson)
-  - [MIT License](https://github.com/Tornhoof/SpanJson/blob/master/LICENSE)によって公開されています
+**SharedProperty.Serializer.SpanJson**
+- [SpanJson](https://github.com/Tornhoof/SpanJson) : [MIT License](https://github.com/Tornhoof/SpanJson/blob/master/LICENSE)によって公開されています
+
+#### ベンチマーク
+ベンチマークには以下のライブラリを使用しています。
+- [BenchmarkDotNet](https://github.com/dotnet/BenchmarkDotNet) : [MIT License](https://github.com/dotnet/BenchmarkDotNet/blob/master/LICENSE.md)によって公開されています。
