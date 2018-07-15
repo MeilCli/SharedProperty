@@ -13,14 +13,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedProperty.Serializer.S
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8F61A995-1D4A-404F-9FAF-C7E865584770}"
 	ProjectSection(SolutionItems) = preProject
-		LICENSE.txt = LICENSE.txt
+		LICENSE = LICENSE
 		README-ja.md = README-ja.md
 		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedProperty.Test.NETCore", "SharedProperty.Test.NETCore\SharedProperty.Test.NETCore.csproj", "{DAD929CC-A9C4-4D16-B824-D986581A16F5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedProperty.Benchmark.NETCore", "SharedProperty.Benchmark.NETCore\SharedProperty.Benchmark.NETCore.csproj", "{1DF91A29-BACF-4ABB-80DF-B493A9467329}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedProperty.Benchmark.NETCore", "SharedProperty.Benchmark.NETCore\SharedProperty.Benchmark.NETCore.csproj", "{1DF91A29-BACF-4ABB-80DF-B493A9467329}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedProperty.Sample.XamarinForms.Android", "SharedProperty.Sample.XamarinForms.Android\SharedProperty.Sample.XamarinForms.Android.csproj", "{681E04CF-664B-43CD-AA8F-3748247DFC46}"
 EndProject
@@ -28,7 +28,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedProperty.Sample.Xamar
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedProperty.Sample.XamarinForms.UWP", "SharedProperty.Sample.XamarinForms.UWP\SharedProperty.Sample.XamarinForms.UWP.csproj", "{1884001E-9D97-43EF-BF69-3F1ED16831B8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedProperty.Sample.XamarinForms", "SharedProperty.Sample.XamarinForms\SharedProperty.Sample.XamarinForms.csproj", "{BC0C33B0-1B55-4715-B9DC-0CB31E68998F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedProperty.Sample.XamarinForms", "SharedProperty.Sample.XamarinForms\SharedProperty.Sample.XamarinForms.csproj", "{BC0C33B0-1B55-4715-B9DC-0CB31E68998F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
