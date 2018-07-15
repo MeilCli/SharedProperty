@@ -151,6 +151,11 @@ SharedPropertyはデータのマイグレーションに対応していません
 
 また、ファイル読み込み時に不明な型のデータは読み込みがスキップされます。
 
+### Xamarin.iOS
+Xamarin.iOSではAOTのため`Utf8Json.Resolvers.StandardResolver.Default`を利用するとアプリケーションがクラッシュします。
+
+`AotStandardResolver`クラスを用意していますが、ユーザー定義型はUtf8Jsonのコードジェネレーターを利用してください。
+
 ## ライセンス
 このライブラリーは[MIT License](LICENSE.txt)によって公開されています。
 
@@ -166,3 +171,9 @@ SharedPropertyはデータのマイグレーションに対応していません
 #### ベンチマーク
 ベンチマークには以下のライブラリを使用しています。
 - [BenchmarkDotNet](https://github.com/dotnet/BenchmarkDotNet) : [MIT License](https://github.com/dotnet/BenchmarkDotNet/blob/master/LICENSE.md)によって公開されています。
+
+#### サンプル
+サンプルには以下のライブラリを使用しています。
+- [Utf8Json](https://github.com/neuecc/Utf8Json) : [MIT License](https://github.com/neuecc/Utf8Json/blob/master/LICENSE)によって公開されています
+- [Xamarin.Forms](https://github.com/xamarin/Xamarin.Forms) : [MIT License](https://github.com/xamarin/Xamarin.Forms/blob/master/LICENSE)によって公開されています。
+- [AndroidSupportComponents](https://github.com/xamarin/AndroidSupportComponents) : [MIT License](https://github.com/xamarin/AndroidSupportComponents/blob/master/LICENSE.md)によって公開されています。
