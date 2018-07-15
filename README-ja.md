@@ -90,14 +90,14 @@ Job=Core  Runtime=Core
 ```
 |                   Method |       Mean |     Error |    StdDev |        Min |        Max |  Gen 0 | Allocated |
 |------------------------- |-----------:|----------:|----------:|-----------:|-----------:|-------:|----------:|
-|   ShortUtf8JsonSerialize |   752.7 ns |  9.349 ns |  8.287 ns |   740.3 ns |   767.3 ns | 0.0753 |     320 B |
-|   LargeUtf8JsonSerialize | 1,121.4 ns |  6.662 ns |  5.905 ns | 1,111.8 ns | 1,130.4 ns | 0.0896 |     384 B |
-|   ShortSpanJsonSerialize |   778.9 ns |  6.469 ns |  6.051 ns |   772.3 ns |   793.6 ns | 0.0753 |     320 B |
-|   LargeSpanJsonSerialize | 1,364.4 ns | 17.396 ns | 15.421 ns | 1,348.1 ns | 1,404.4 ns | 0.0896 |     384 B |
-| ShortUtf8JsonDeserialize | 1,743.9 ns | 12.912 ns | 12.078 ns | 1,721.0 ns | 1,765.8 ns | 0.2270 |     960 B |
-| LargeUtf8JsonDeserialize | 2,415.6 ns | 19.449 ns | 17.241 ns | 2,392.9 ns | 2,442.9 ns | 0.3052 |    1296 B |
-| ShortSpanJsonDeserialize | 1,184.5 ns | 19.126 ns | 15.971 ns | 1,161.9 ns | 1,218.4 ns | 0.2270 |     960 B |
-| LargeSpanJsonDeserialize | 1,634.8 ns | 16.720 ns | 12.090 ns | 1,608.7 ns | 1,648.9 ns | 0.3071 |    1296 B |
+|   ShortUtf8JsonSerialize |   812.0 ns |  8.212 ns |  7.682 ns |   801.4 ns |   829.5 ns | 0.0753 |     320 B |
+|   LargeUtf8JsonSerialize | 1,171.0 ns | 15.844 ns | 14.820 ns | 1,152.7 ns | 1,200.2 ns | 0.0896 |     384 B |
+|   ShortSpanJsonSerialize |   839.1 ns |  5.006 ns |  4.438 ns |   828.6 ns |   845.4 ns | 0.0753 |     320 B |
+|   LargeSpanJsonSerialize | 1,444.2 ns | 16.301 ns | 15.248 ns | 1,422.5 ns | 1,478.6 ns | 0.0896 |     384 B |
+| ShortUtf8JsonDeserialize | 1,932.6 ns | 35.826 ns | 33.512 ns | 1,892.8 ns | 2,013.5 ns | 0.2251 |     960 B |
+| LargeUtf8JsonDeserialize | 2,628.0 ns | 52.275 ns | 81.386 ns | 2,534.7 ns | 2,835.7 ns | 0.3052 |    1296 B |
+| ShortSpanJsonDeserialize | 1,237.6 ns | 11.074 ns | 10.359 ns | 1,220.5 ns | 1,259.4 ns | 0.2270 |     960 B |
+| LargeSpanJsonDeserialize | 1,710.6 ns |  8.564 ns |  8.011 ns | 1,701.5 ns | 1,723.7 ns | 0.3071 |    1296 B |
 
 [SharedProperty.Benchmark.NETCore/SerializerBench.cs](SharedProperty.Benchmark.NETCore/SerializerBench.cs)
 
