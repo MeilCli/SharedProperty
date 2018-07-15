@@ -194,9 +194,12 @@ namespace SharedProperty.NETStandard
             properties.Clear();
         }
 
-        public IEnumerator<IProperty> GetEnumerator()
+        public IEnumerator<KeyValuePair<string, object>> GetEnumerator()
         {
-            return properties.Values.GetEnumerator();
+            foreach (var property in properties.Values)
+            {
+                yield return new KeyValuePair<string, object>(property.Key, property.Value);
+            }
         }
 
         IEnumerator IEnumerable.GetEnumerator()

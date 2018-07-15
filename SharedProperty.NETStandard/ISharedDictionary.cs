@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace SharedProperty.NETStandard
 {
-    public interface ISharedDictionary : IEnumerable<IProperty>
+    public interface ISharedDictionary : IEnumerable<KeyValuePair<string, object>>
     {
         int PropertyCount { get; }
 
