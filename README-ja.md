@@ -116,10 +116,11 @@ Job=Core  Runtime=Core
 暗号化には`AesCryptoConverter`または`RijndaelCryptoConverter`が使用できます。  
 強度なセキュリティを保つには開発者は必ずアプリケーション固有の暗号鍵を使用する必要があります。
 
-## スレッドセーフ
+## 注意
+### スレッドセーフ
 `SharedDictionary`クラスはスレッドセーフではありません。複数スレッドで操作する場合は、`ConcurrentSharedDictionary`クラスを使用してください。
 
-## 注意
+
 ### 暗黙的型変換
 現在、SharedPropertyでは値の取得時に暗黙的型変換が可能です。
 
