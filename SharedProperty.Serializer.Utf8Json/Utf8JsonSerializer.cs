@@ -20,7 +20,6 @@ namespace SharedProperty.Serializer.Utf8Json
             }
         }
 
-
         private static Utf8JsonSerializer _default;
         /// <summary>
         /// creating StandardResolver must be lazy property.
@@ -37,6 +36,8 @@ namespace SharedProperty.Serializer.Utf8Json
         }
 
         private readonly Utf8JsonFormatterResolver utf8JsonFormatterResolver;
+
+        public IDictionary<string, string> MigrationTypeDictionary { get; } = new Dictionary<string, string>();
 
         public IFormatterResolver FormatterResolver {
             get => utf8JsonFormatterResolver;
@@ -125,6 +126,10 @@ namespace SharedProperty.Serializer.Utf8Json
                             break;
                         case SerializeConstant.TypeName:
                             type = reader.ReadString();
+                            if (MigrationTypeDictionary.TryGetValue(type, out string migrationType))
+                            {
+                                type = migrationType;
+                            }
                             break;
                         case SerializeConstant.ValueName:
                             if (type == null)
@@ -171,6 +176,10 @@ namespace SharedProperty.Serializer.Utf8Json
 
                 reader.ReadIsBeginObjectWithVerify();
                 string type = reader.ReadPropertyName();
+                if (MigrationTypeDictionary.TryGetValue(type, out string migrationType))
+                {
+                    type = migrationType;
+                }
 
                 IUtf8JsonFormatter formatter = utf8JsonFormatterResolver.Resolve(type);
                 if (formatter == null)

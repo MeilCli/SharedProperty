@@ -144,10 +144,8 @@ long l = sharedDictionary.GetProperty<long>("number")
 
 
 ### マイグレーション
-SharedPropertyはデータのマイグレーションに対応していません。  
-そのため、ユーザー定義型を保存する際は注意する必要があります。
-
-トークンやIdなどの情報はなるべく基本データ型で保存し、ユーザー定義型は別ファイルを設定したSharedDictionaryに保存するのがより安全です。
+`Utf8JsonSerializer.MigrationTypeDictionary`または`SpanJsonSerializer.MigrationTypeDictionary`を使用することによって保存した値の型をマイグレーションすることが可能です。
+また、同じ型でのマイグレーションはUtf8JsonまたはSpanJsonのCustomFormatterResolverとCustomFormatterを作成してください。
 
 また、ファイル読み込み時に不明な型のデータは読み込みがスキップされます。
 

@@ -22,6 +22,8 @@ namespace SharedProperty.Serializer.SpanJson
     {
         private readonly SpanJsonFormatterResolver<TResolver> jsonFormatterResolver;
 
+        public IDictionary<string, string> MigrationTypeDictionary { get; } = new Dictionary<string, string>();
+
         public IFormatterResolver FormatterResolver {
             get => jsonFormatterResolver;
         }
@@ -109,6 +111,10 @@ namespace SharedProperty.Serializer.SpanJson
                             break;
                         case SerializeConstant.TypeName:
                             type = reader.ReadString();
+                            if (MigrationTypeDictionary.TryGetValue(type, out string migrationType))
+                            {
+                                type = migrationType;
+                            }
                             break;
                         case SerializeConstant.ValueName:
                             if (type == null)
@@ -155,6 +161,10 @@ namespace SharedProperty.Serializer.SpanJson
 
                 reader.ReadUtf8BeginObjectOrThrow();
                 string type = reader.ReadUtf8EscapedName();
+                if (MigrationTypeDictionary.TryGetValue(type, out string migrationType))
+                {
+                    type = migrationType;
+                }
 
                 ISpanJsonFormatter formatter = jsonFormatterResolver.Resolve(type);
                 if (formatter == null)
