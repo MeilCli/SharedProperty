@@ -104,15 +104,29 @@ Job=Core  Runtime=Core
 また、二つのSerializerを混合して使用する場合は、Utf8JsonとSpanJsonの共通の機能のみを使用する必要があります。
 
 ## Storage
-標準では`FileStorage`と`IsolatedFileStorage`を用意しています。  
-アプリケーションデータ固有のデータは`IsolatedFileStorage`の利用を勧めますが、ファイルパスで保存場所を指定したい場合は`FileStorage`を利用してください。
+標準では`FileStorage`と`IsolatedFileStorage`を用意しています。 
+### FileStorage
+ファイルパスによって保存場所を指定します。exeファイルと同じディレクトリに保存したい場合などに利用してください。
+
+### IsolatedFileStorage
+アプリケーションデータを保存する場合は`IsolatedFileStorage`の使用を勧めます。
+Xamarinなどのクロスプラットフォームな実行環境において.NET Standardが保存ディレクトリを解決します。
+そのため、ファイルの名前によって保存場所を指定します。
 
 ## Converter
 難読化や暗号化のために標準ではいくつかのConverterを用意しています。
 
-難読化のためなら`SimpleConverter.Default`, `AesCryptoConverter.Default`, `RijndaelCryptoConverter.Default`が使えます。
+### 難読化
+難読化のためのConverterは以下のものを用意しています。
+
+- `SimpleConverter.Default`
+- `AesCryptoConverter.Default`
+- `RijndaelCryptoConverter.Default`
+
 `SimpleConverter.Default`は単純に文字コードを+1しているだけなので非常に高速です。ちょっとリッチな難読化をする場合は`AesCryptoConverter.Default`または`RijndaelCryptoConverter.Default`を利用してください。
 
+
+### 暗号化
 暗号化には`AesCryptoConverter`または`RijndaelCryptoConverter`が使用できます。  
 強度なセキュリティを保つには開発者は必ずアプリケーション固有の暗号鍵を使用する必要があります。
 
