@@ -4,6 +4,7 @@ namespace SharedProperty.NETStandard.TypeConverters
 {
     public class DoubleTypeConverter : ITypeConverter<double>
     {
+        /// <exception cref="System.InvalidOperationException">not support convert</exception>
         public double ConvertAndGetValue(IProperty property)
         {
             if (property is IProperty<byte> byteProperty)

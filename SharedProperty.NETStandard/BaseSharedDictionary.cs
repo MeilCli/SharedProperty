@@ -84,6 +84,8 @@ namespace SharedProperty.NETStandard
             return properties.ContainsKey(key);
         }
 
+        /// <exception cref="System.Collections.Generic.KeyNotFoundException">not found key</exception>
+        /// <exception cref="System.InvalidOperationException">not target typed value or not support convert</exception>
         public virtual T GetProperty<T>(string key)
         {
             if (properties.TryGetValue(key, out IProperty property) == false)

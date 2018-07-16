@@ -4,6 +4,7 @@ namespace SharedProperty.NETStandard.TypeConverters
 {
     public class FloatTypeConverter : ITypeConverter<float>
     {
+        /// <exception cref="System.InvalidOperationException">not support convert</exception>
         public float ConvertAndGetValue(IProperty property)
         {
             if (property is IProperty<byte> byteProperty)

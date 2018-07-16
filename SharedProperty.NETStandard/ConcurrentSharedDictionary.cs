@@ -60,6 +60,8 @@
             }
         }
 
+        /// <exception cref="System.Collections.Generic.KeyNotFoundException">not found key</exception>
+        /// <exception cref="System.InvalidOperationException">not target typed value or not support convert</exception>
         public override T GetProperty<T>(string key)
         {
             SemaphoreSlim.Wait();

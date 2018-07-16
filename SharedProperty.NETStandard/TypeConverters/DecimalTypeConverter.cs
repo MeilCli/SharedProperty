@@ -4,6 +4,7 @@ namespace SharedProperty.NETStandard.TypeConverters
 {
     public class DecimalTypeConverter : ITypeConverter<decimal>
     {
+        /// <exception cref="System.InvalidOperationException">not support convert</exception>
         public decimal ConvertAndGetValue(IProperty property)
         {
             if (property is IProperty<byte> byteProperty)

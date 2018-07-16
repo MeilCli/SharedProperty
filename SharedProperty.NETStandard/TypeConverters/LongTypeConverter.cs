@@ -4,6 +4,7 @@ namespace SharedProperty.NETStandard.TypeConverters
 {
     public class LongTypeConverter : ITypeConverter<long>
     {
+        /// <exception cref="System.InvalidOperationException">not support convert</exception>
         public long ConvertAndGetValue(IProperty property)
         {
             if (property is IProperty<byte> byteProperty)
