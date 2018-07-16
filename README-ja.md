@@ -184,7 +184,7 @@ Xamarin.iOSではAOTのため`Utf8Json.Resolvers.StandardResolver.Default`を利
 `AotStandardResolver`クラスを用意していますが、ユーザー定義型はUtf8Jsonのコードジェネレーターを利用してください。
 
 ## ライセンス
-このライブラリーは[MIT License](LICENSE.txt)によって公開されています。
+このライブラリーは[MIT License](LICENSE)によって公開されています。
 
 #### パッケージ
 パッケージによって使用するライブラリが異なります。
