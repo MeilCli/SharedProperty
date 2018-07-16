@@ -1,5 +1,5 @@
 ﻿# SharedProperty
-![nuget](https://img.shields.io/nuget/v/SharedProperty.svg) ![release](https://img.shields.io/github/release/MeilCli/SharedProperty/all.svg)  
+![[nuget](https://www.nuget.org/packages/SharedProperty)](https://img.shields.io/nuget/v/SharedProperty.svg) ![[release](https://github.com/MeilCli/SharedProperty/releases)](https://img.shields.io/github/release/MeilCli/SharedProperty/all.svg)  
 アプリケーションデータを保存するためのKey-Valueストアライブラリー(for .NET Standard 2.0)
 
 ## 動作環境
