@@ -1,7 +1,14 @@
 ﻿# SharedProperty
-アプリケーションデータを保存するための.NET Standard 2.0ライブラリー
+![nuget](https://img.shields.io/nuget/v/SharedProperty.svg) ![release](https://img.shields.io/github/release/MeilCli/SharedProperty/all.svg)  
+アプリケーションデータを保存するためのKey-Valueストアライブラリー(for .NET Standard 2.0)
 
-製作途中なのでAPIとかは変わる可能性があります、またAPIリクエストも受け付けています。
+## 動作環境
+.NET Standard 2.0に対応している環境なら動作するはずです。
+
+- .NET Framework
+- .NET Core
+- Xamarin.Android
+- Xamarin.iOS
 
 ## 使い方
 ```csharp
