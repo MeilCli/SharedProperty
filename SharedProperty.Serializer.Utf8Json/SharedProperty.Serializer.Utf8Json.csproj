@@ -4,10 +4,10 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageId>SharedProperty.Serializer.Utf8Json</PackageId>
-    <Version>1.0.0-rc1</Version>
+    <Version>1.0.0</Version>
     <Authors>meilcli</Authors>
-    <Description>Key-Value store library for Application setting
-Serializer package using Utf8Json</Description>
+    <Description>Key-Value store library for Application setting.
+Serializer package using Utf8Json.</Description>
     <PackageLicenseUrl>https://github.com/MeilCli/SharedProperty/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/MeilCli/SharedProperty</PackageProjectUrl>
     <PackageTags>SharedProperty, Settings, KeyValueStore, Xamarin</PackageTags>

@@ -4,12 +4,12 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <PackageId>SharedProperty</PackageId>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.0-rc1</Version>
+    <Version>1.0.0</Version>
     <Authors>meilcli</Authors>
     <PackageProjectUrl>https://github.com/MeilCli/SharedProperty</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/MeilCli/SharedProperty/blob/master/LICENSE</PackageLicenseUrl>
     <PackageTags>SharedProperty, Settings, KeyValueStore, Xamarin</PackageTags>
-    <Description>Key-Value store library for Application setting</Description>
+    <Description>Key-Value store library for Application setting.</Description>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
