@@ -10,6 +10,14 @@
 - Xamarin.Android
 - Xamarin.iOS
 
+## インストール
+
+- [SharedProperty](https://www.nuget.org/packages/SharedProperty)
+- [SharedProperty.Serializer.SpanJson](https://www.nuget.org/packages/SharedProperty.Serializer.SpanJson)
+  - SerializerにSpanJsonを使う場合に必要
+- [SharedProperty.Serializer.Utf8Json](https://www.nuget.org/packages/SharedProperty.Serializer.Utf8Json)
+  - SerializerにUtf8Jsonを使う場合に必要
+
 ## 使い方
 ```csharp
 var sharedDictionary = new SharedDictionary(Utf8JsonSerializer.Default, FileStorage.Default, null);
