@@ -23,13 +23,6 @@ steps:
     configuration: '$(buildConfiguration)'
     arguments: '--logger trx'
 
-- task: DotNetCoreCLI@2
-  inputs:
-    command: 'publish'
-    projects: '**/*.Test*/*.csproj'
-    configuration: '$(buildConfiguration)'
-    arguments: '--output $BUILD_ARTIFACTSTAGINGDIRECTORY'
-
 - task: PublishTestResults@2
   inputs:
     testRunner: VSTest
