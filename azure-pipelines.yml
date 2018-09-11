@@ -16,21 +16,24 @@ steps:
     dotnet publish --configuration $(buildConfiguration) --output $BUILD_ARTIFACTSTAGINGDIRECTORY
 
 - task: DotNetCoreCLI@2
-  command: 'build'
-  projects: '**/*.Test*/*.csproj'
-  configuration: '$(buildConfiguration)'
+  inputs:
+    command: 'build'
+    projects: '**/*.Test*/*.csproj'
+    configuration: '$(buildConfiguration)'
   
 - task: DotNetCoreCLI@2
-  command: 'test'
-  projects: '**/*.Test*/*.csproj'
-  configuration: '$(buildConfiguration)'
-  arguments: '--logger trx'
+  inputs:
+    command: 'test'
+    projects: '**/*.Test*/*.csproj'
+    configuration: '$(buildConfiguration)'
+    arguments: '--logger trx'
 
 - task: DotNetCoreCLI@2
-  command: 'publish'
-  projects: '**/*.Test*/*.csproj'
-  configuration: '$(buildConfiguration)'
-  arguments: '--output $BUILD_ARTIFACTSTAGINGDIRECTORY'
+  inputs:
+    command: 'publish'
+    projects: '**/*.Test*/*.csproj'
+    configuration: '$(buildConfiguration)'
+    arguments: '--output $BUILD_ARTIFACTSTAGINGDIRECTORY'
 
 - task: PublishTestResults@2
   inputs:
