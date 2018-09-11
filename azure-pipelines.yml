@@ -10,11 +10,6 @@ variables:
   buildConfiguration: 'Release'
   
 steps:
-- script: |
-    dotnet build --configuration $(buildConfiguration)
-    dotnet test dotnetcore-tests --configuration $(buildConfiguration) --logger trx
-    dotnet publish --configuration $(buildConfiguration) --output $BUILD_ARTIFACTSTAGINGDIRECTORY
-
 - task: DotNetCoreCLI@2
   inputs:
     command: 'build'
