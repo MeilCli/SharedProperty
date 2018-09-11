@@ -7,24 +7,34 @@ pool:
   vmImage: 'win1803'
 
 variables:
-  solution: '**/*.sln'
-  buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
-
+  
 steps:
-- task: NuGetToolInstaller@0
+- script: |
+    dotnet build --configuration $(buildConfiguration)
+    dotnet test dotnetcore-tests --configuration $(buildConfiguration) --logger trx
+    dotnet publish --configuration $(buildConfiguration) --output $BUILD_ARTIFACTSTAGINGDIRECTORY
 
-- task: NuGetCommand@2
-  inputs:
-    restoreSolution: '$(solution)'
+- task: DotNetCoreCLI@2
+  command: 'build'
+  projects: '**/*.Test*/*.csproj'
+  configuration: '$(buildConfiguration)'
+  
+- task: DotNetCoreCLI@2
+  command: 'test'
+  projects: '**/*.Test*/*.csproj'
+  configuration: '$(buildConfiguration)'
+  arguments: '--logger trx'
 
-- task: VSBuild@1
-  inputs:
-    solution: '**/*.Test*/*.csproj'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+- task: DotNetCoreCLI@2
+  command: 'publish'
+  projects: '**/*.Test*/*.csproj'
+  configuration: '$(buildConfiguration)'
+  arguments: '--output $BUILD_ARTIFACTSTAGINGDIRECTORY'
 
-- task: VSTest@2
+- task: PublishTestResults@2
   inputs:
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+    testRunner: VSTest
+    testResultsFiles: '**/*.trx'
+
+- task: PublishBuildArtifacts@1
