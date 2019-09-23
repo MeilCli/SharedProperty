@@ -1,0 +1,34 @@
+trigger:
+  tags:
+    include:
+      - '*'
+
+pr: none
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  buildConfiguration: 'Release'
+
+steps:
+- task: UseDotNet@2
+  inputs:
+    version: 3.x
+    includePreviewVersions: true
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'build'
+    projects: |
+      SharedProperty.NETStandard/*.csproj
+      SharedProperty.Serializer.SpanJson/*.csproj
+      SharedProperty.Serializer.SystemTextJson/*.csproj
+      SharedProperty.Serializer.Utf8Json/*.csproj
+    arguments: '--configuration $(buildConfiguration) /p:PackageVersion=$(Build.SourceBranchName)'
+# cannot use DotNetCoreCLI@2 command, because its command cannot use encrypted API Key
+- task: NuGetCommand@2
+  inputs:
+    command: push
+    searchPatternPush: '$(Build.SourcesDirectory)/**/SharedProperty.*.nupkg'
+    nuGetFeedType: 'external'
+    externalEndPoint: 'nugetConnection'
