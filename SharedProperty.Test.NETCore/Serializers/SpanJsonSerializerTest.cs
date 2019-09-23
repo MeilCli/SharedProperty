@@ -8,7 +8,7 @@ namespace SharedProperty.Test.NETCore.Serializers
     [TestClass]
     public class SpanJsonSerializerTest
     {
-        [TestCategory(TestCategoryConstant.Serializee)]
+        [TestCategory(TestCategoryConstant.Serializer)]
         [TestMethod]
         public void ShortModeSerialize()
         {
@@ -18,7 +18,7 @@ namespace SharedProperty.Test.NETCore.Serializers
             Assert.AreEqual(sharedDictionary.GetProperty<int>("key2"), 1);
         }
 
-        [TestCategory(TestCategoryConstant.Serializee)]
+        [TestCategory(TestCategoryConstant.Serializer)]
         [TestMethod]
         public void LargeModeSerialize()
         {
@@ -28,7 +28,7 @@ namespace SharedProperty.Test.NETCore.Serializers
             Assert.AreEqual(sharedDictionary.GetProperty<int>("key2"), 1);
         }
 
-        [TestCategory(TestCategoryConstant.Serializee)]
+        [TestCategory(TestCategoryConstant.Serializer)]
         [TestMethod]
         public void ShortModeDeserialize()
         {
@@ -39,7 +39,7 @@ namespace SharedProperty.Test.NETCore.Serializers
             Assert.AreEqual(Encoding.UTF8.GetString(bytes), JsonConstant.ShortModeJson);
         }
 
-        [TestCategory(TestCategoryConstant.Serializee)]
+        [TestCategory(TestCategoryConstant.Serializer)]
         [TestMethod]
         public void LargeModeDeserialize()
         {
@@ -50,7 +50,7 @@ namespace SharedProperty.Test.NETCore.Serializers
             Assert.AreEqual(Encoding.UTF8.GetString(bytes), JsonConstant.LargeModeJson);
         }
 
-        [TestCategory(TestCategoryConstant.Serializee)]
+        [TestCategory(TestCategoryConstant.Serializer)]
         [TestMethod]
         public void ShortModeSerializeWithUnknownData()
         {
@@ -60,7 +60,7 @@ namespace SharedProperty.Test.NETCore.Serializers
             Assert.AreEqual(sharedDictionary.GetProperty<int>("key2"), 1);
         }
 
-        [TestCategory(TestCategoryConstant.Serializee)]
+        [TestCategory(TestCategoryConstant.Serializer)]
         [TestMethod]
         public void LargeModeSerializeWithUnknownData()
         {
@@ -70,7 +70,7 @@ namespace SharedProperty.Test.NETCore.Serializers
             Assert.AreEqual(sharedDictionary.GetProperty<int>("key2"), 1);
         }
 
-        [TestCategory(TestCategoryConstant.Serializee)]
+        [TestCategory(TestCategoryConstant.Serializer)]
         [TestMethod]
         public void ShortModeNullValue()
         {
@@ -87,7 +87,7 @@ namespace SharedProperty.Test.NETCore.Serializers
             Assert.AreEqual(null, sharedDictionary.GetProperty<string?>("nullableString"));
         }
 
-        [TestCategory(TestCategoryConstant.Serializee)]
+        [TestCategory(TestCategoryConstant.Serializer)]
         [TestMethod]
         public void LargeModeNullValue()
         {
