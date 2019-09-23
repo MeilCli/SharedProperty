@@ -53,7 +53,7 @@ sharedDictionary.SetProperty("list", new List<int> { 1, 2, 3, 4 });
 ```
 restricted by the Json library used by each serializer if using collection or user defined type.
 
-get the value use `GetPropety` method or ` TryGetProperty` method.
+get the value use `GetPropety` method or `TryGetProperty` method.
 ```csharp
 WriteLine(sharedDictionary.GetProperty<string>("text"));
 WriteLine(sharedDictionary.GetProperty<int>("number"));
@@ -134,7 +134,7 @@ Job=Core  Runtime=Core
 In addition, when using two Serializers mixed, it is necessary to use only the common function of Utf8Json and SpanJson.
 
 ## Storage
-By default, `FileStorage` and` IsolatedFileStorage` are prepared.
+By default, `FileStorage` and `IsolatedFileStorage` are prepared.
 ### FileStorage
 Specify the storage location by file path. Use it when you want to save it in the same directory as the exe file.
 
@@ -154,11 +154,11 @@ Converter for obfuscation prepares the following.
 - `RijndaelCryptoConverter.Default`
 
 `SimpleConverter.Default` is simply very fast because it simply increments the character code.
-Use `AesCryptoConverter.Default` or` RijndaelCryptoConverter.Default` for slight rich obfuscation.
+Use `AesCryptoConverter.Default` or `RijndaelCryptoConverter.Default` for slight rich obfuscation.
 
 
 ### Encryption
-Can use `AesCryptoConverter` or` RijndaelCryptoConverter` for encryption.
+Can use `AesCryptoConverter` or `RijndaelCryptoConverter` for encryption.
 In order to maintain strong security, developers must always use application-specific encryption keys.
 
 ## Caution
