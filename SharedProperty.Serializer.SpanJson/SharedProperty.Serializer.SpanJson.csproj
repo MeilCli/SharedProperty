@@ -10,7 +10,7 @@
       Key-Value store library for Application setting.
       Serializer package using SpanJson.
     </Description>
-    <PackageLicenseUrl>https://github.com/MeilCli/SharedProperty/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/MeilCli/SharedProperty</PackageProjectUrl>
     <PackageTags>SharedProperty, Settings, KeyValueStore, Xamarin</PackageTags>
   </PropertyGroup>

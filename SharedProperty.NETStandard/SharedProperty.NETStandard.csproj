@@ -7,7 +7,7 @@
     <Version>1.0.0</Version>
     <Authors>meilcli</Authors>
     <PackageProjectUrl>https://github.com/MeilCli/SharedProperty</PackageProjectUrl>
-    <PackageLicenseUrl>https://github.com/MeilCli/SharedProperty/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>SharedProperty, Settings, KeyValueStore, Xamarin</PackageTags>
     <Description>Key-Value store library for Application setting.</Description>
   </PropertyGroup>
