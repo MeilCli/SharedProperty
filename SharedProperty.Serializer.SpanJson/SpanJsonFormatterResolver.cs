@@ -1,8 +1,8 @@
-﻿using SharedProperty.NETStandard;
+﻿using System;
+using System.Collections.Generic;
+using SharedProperty.NETStandard;
 using SpanJson;
 using SpanJson.Resolvers;
-using System;
-using System.Collections.Generic;
 
 namespace SharedProperty.Serializer.SpanJson
 {
@@ -38,8 +38,12 @@ namespace SharedProperty.Serializer.SpanJson
             return Resolve<T>();
         }
 
-        internal ISpanJsonFormatter Resolve(string fullNameType)
+        internal ISpanJsonFormatter? Resolve(string? fullNameType)
         {
+            if (fullNameType is null)
+            {
+                return null;
+            }
             if (formatterCache.TryGetValue(fullNameType, out ISpanJsonFormatter formatter))
             {
                 return formatter;
@@ -53,9 +57,13 @@ namespace SharedProperty.Serializer.SpanJson
                 }
 
                 Type formatterType = typeof(SpanJsonFormatter<,>).MakeGenericType(targetType, typeof(TResolver));
-                formatter = Activator.CreateInstance(formatterType, jsonFormatterResolver) as ISpanJsonFormatter;
-                formatterCache[fullNameType] = formatter;
-                return formatter;
+                var targetFormatter = Activator.CreateInstance(formatterType, jsonFormatterResolver) as ISpanJsonFormatter;
+                if (targetFormatter is null)
+                {
+                    return null;
+                }
+                formatterCache[fullNameType] = targetFormatter;
+                return targetFormatter;
             }
         }
     }

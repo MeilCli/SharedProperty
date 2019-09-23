@@ -1,10 +1,10 @@
-﻿using SharedProperty.NETStandard;
-using SharedProperty.NETStandard.Storage;
-using SharedProperty.Serializer.Utf8Json;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
+using SharedProperty.NETStandard;
+using SharedProperty.NETStandard.Storage;
+using SharedProperty.Serializer.Utf8Json;
 using static System.Console;
 
 namespace SharedProperty.Sample.NETCore.Console
@@ -51,7 +51,7 @@ namespace SharedProperty.Sample.NETCore.Console
             WriteLine(sharedDictionary.GetProperty<int>("number"));
             WriteLine(sharedDictionary.GetProperty<long>("number"));
             WriteLine(sharedDictionary.GetProperty<Data>("data"));
-            WriteLine(sharedDictionary.GetProperty<List<int>>("list").Count);
+            WriteLine(sharedDictionary.GetProperty<List<int>>("list")?.Count);
             WriteLine(sharedDictionary.GetProperty<IEnumerable<int>>("list").Count());
 
             var serializer = new Utf8JsonSerializer();

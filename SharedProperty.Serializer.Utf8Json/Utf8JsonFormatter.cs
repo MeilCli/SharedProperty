@@ -1,5 +1,5 @@
-﻿using SharedProperty.NETStandard;
-using System;
+﻿using System;
+using SharedProperty.NETStandard;
 using Utf8Json;
 
 namespace SharedProperty.Serializer.Utf8Json
@@ -30,9 +30,8 @@ namespace SharedProperty.Serializer.Utf8Json
         public IProperty Read(ref JsonReader reader)
         {
             T value = jsonFormatter.Deserialize(ref reader, jsonFormatterResolver);
-            return new Property<T>
+            return new Property<T>(this)
             {
-                Formatter = this,
                 Value = value
             };
         }

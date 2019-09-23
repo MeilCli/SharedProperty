@@ -1,4 +1,6 @@
-﻿namespace SharedProperty.NETStandard
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace SharedProperty.NETStandard
 {
     public sealed class ConcurrentSharedDictionary : BaseSharedDictionary
     {
@@ -16,7 +18,7 @@
             }
         }
 
-        public ConcurrentSharedDictionary(ISerializer serializer, IStorage storage, IConverter converter)
+        public ConcurrentSharedDictionary(ISerializer serializer, IStorage? storage, IConverter? converter)
             : base(serializer, storage, converter)
         {
         }
@@ -60,6 +62,7 @@
             }
         }
 
+        [return: MaybeNull]
         /// <exception cref="System.Collections.Generic.KeyNotFoundException">not found key</exception>
         /// <exception cref="System.InvalidOperationException">not target typed value or not support convert</exception>
         public override T GetProperty<T>(string key)
@@ -75,7 +78,7 @@
             }
         }
 
-        public override bool TryGetProperty<T>(string key, out T value)
+        public override bool TryGetProperty<T>(string key, [MaybeNull] out T value)
         {
             SemaphoreSlim.Wait();
             try
@@ -88,7 +91,7 @@
             }
         }
 
-        public override void SetProperty<T>(string key, T value)
+        public override void SetProperty<T>(string key, [AllowNull] T value)
         {
             SemaphoreSlim.Wait();
             try

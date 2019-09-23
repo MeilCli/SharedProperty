@@ -1,6 +1,6 @@
-﻿using SharedProperty.NETStandard;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using SharedProperty.NETStandard;
 using Utf8Json;
 
 namespace SharedProperty.Serializer.Utf8Json
@@ -20,7 +20,7 @@ namespace SharedProperty.Serializer.Utf8Json
         internal readonly IJsonFormatterResolver JsonFormatterResolver;
         private readonly Dictionary<string, IUtf8JsonFormatter> formatterCache = new Dictionary<string, IUtf8JsonFormatter>();
 
-        public Utf8JsonFormatterResolver(IJsonFormatterResolver jsonFormatterResolver = null)
+        public Utf8JsonFormatterResolver(IJsonFormatterResolver? jsonFormatterResolver = null)
         {
             JsonFormatterResolver = jsonFormatterResolver ?? createStandardResolver();
         }
@@ -44,8 +44,12 @@ namespace SharedProperty.Serializer.Utf8Json
             return Resolve<T>();
         }
 
-        internal IUtf8JsonFormatter Resolve(string fullNameType)
+        internal IUtf8JsonFormatter? Resolve(string? fullNameType)
         {
+            if (fullNameType is null)
+            {
+                return null;
+            }
             if (formatterCache.TryGetValue(fullNameType, out IUtf8JsonFormatter formatter))
             {
                 return formatter;
@@ -53,15 +57,19 @@ namespace SharedProperty.Serializer.Utf8Json
             else
             {
                 Type targetType = Type.GetType(fullNameType);
-                if (targetType == null)
+                if (targetType is null)
                 {
                     return null;
                 }
 
                 Type formatterType = typeof(Utf8JsonFormatter<>).MakeGenericType(targetType);
-                formatter = Activator.CreateInstance(formatterType, JsonFormatterResolver) as IUtf8JsonFormatter;
-                formatterCache[fullNameType] = formatter;
-                return formatter;
+                var targetFormatter = Activator.CreateInstance(formatterType, JsonFormatterResolver) as IUtf8JsonFormatter;
+                if (targetFormatter is null)
+                {
+                    return null;
+                }
+                formatterCache[fullNameType] = targetFormatter;
+                return targetFormatter;
             }
         }
     }

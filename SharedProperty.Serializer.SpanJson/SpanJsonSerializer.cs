@@ -1,8 +1,8 @@
-﻿using SharedProperty.NETStandard;
+﻿using System;
+using System.Collections.Generic;
+using SharedProperty.NETStandard;
 using SpanJson;
 using SpanJson.Resolvers;
-using System;
-using System.Collections.Generic;
 
 namespace SharedProperty.Serializer.SpanJson
 {
@@ -50,8 +50,8 @@ namespace SharedProperty.Serializer.SpanJson
             var reader = new JsonReader<byte>(binary);
             reader.ReadUtf8BeginObjectOrThrow();
             int count = 0;
-            string propertyType = null;
-            IEnumerable<IProperty> result = null;
+            string? propertyType = null;
+            IEnumerable<IProperty>? result = null;
             while (reader.TryReadUtf8IsEndObjectOrValueSeparator(ref count) == false)
             {
                 string name = reader.ReadUtf8EscapedName();
@@ -71,9 +71,9 @@ namespace SharedProperty.Serializer.SpanJson
             return result ?? throw new InvalidOperationException("not found properties");
         }
 
-        private IEnumerable<IProperty> readProperiesValue(ref JsonReader<byte> reader, string propertyType)
+        private IEnumerable<IProperty>? readProperiesValue(ref JsonReader<byte> reader, string? propertyType)
         {
-            if (propertyType == null)
+            if (propertyType is null)
             {
                 throw new InvalidOperationException("properties must be last json order");
             }
@@ -95,10 +95,10 @@ namespace SharedProperty.Serializer.SpanJson
             int arrayCount = 0;
             while (reader.TryReadUtf8IsEndArrayOrValueSeparator(ref arrayCount) == false)
             {
-                string key = null;
-                string type = null;
-                IProperty property = null;
-                ISpanJsonFormatter formatter = null;
+                string? key = null;
+                string? type = null;
+                IProperty? property = null;
+                ISpanJsonFormatter? formatter = null;
                 reader.ReadUtf8BeginObjectOrThrow();
                 int objectCount = 0;
                 while (reader.TryReadUtf8IsEndObjectOrValueSeparator(ref objectCount) == false)
@@ -117,13 +117,13 @@ namespace SharedProperty.Serializer.SpanJson
                             }
                             break;
                         case SerializeConstant.ValueName:
-                            if (type == null)
+                            if (type is null)
                             {
                                 throw new InvalidOperationException("value must be last json order");
                             }
 
                             formatter = jsonFormatterResolver.Resolve(type);
-                            if (formatter == null)
+                            if (formatter is null)
                             {
                                 reader.ReadUtf8Dynamic();
                                 break;
@@ -135,12 +135,12 @@ namespace SharedProperty.Serializer.SpanJson
                     }
                 }
 
-                if (formatter == null)
+                if (formatter is null)
                 {
                     // skip unknown value
                     continue;
                 }
-                if (property == null)
+                if (property is null)
                 {
                     throw new InvalidOperationException("not found value");
                 }
@@ -166,8 +166,8 @@ namespace SharedProperty.Serializer.SpanJson
                     type = migrationType;
                 }
 
-                ISpanJsonFormatter formatter = jsonFormatterResolver.Resolve(type);
-                if (formatter == null)
+                ISpanJsonFormatter? formatter = jsonFormatterResolver.Resolve(type);
+                if (formatter is null)
                 {
                     // skip unknown value
                     reader.ReadUtf8Dynamic();
@@ -231,7 +231,7 @@ namespace SharedProperty.Serializer.SpanJson
                 }
 
                 var spanJsonFormatter = property.Formatter as ISpanJsonFormatter ?? jsonFormatterResolver.Resolve(property.Type);
-                if (spanJsonFormatter == null)
+                if (spanJsonFormatter is null)
                 {
                     continue;
                 }
@@ -267,7 +267,7 @@ namespace SharedProperty.Serializer.SpanJson
                 }
 
                 var spanJsonFormatter = property.Formatter as ISpanJsonFormatter ?? jsonFormatterResolver.Resolve(property.Type);
-                if (spanJsonFormatter == null)
+                if (spanJsonFormatter is null)
                 {
                     continue;
                 }

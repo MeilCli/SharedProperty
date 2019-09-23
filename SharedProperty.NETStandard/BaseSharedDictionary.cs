@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -11,13 +12,13 @@ namespace SharedProperty.NETStandard
         protected readonly SemaphoreSlim SemaphoreSlim = new SemaphoreSlim(1, 1);
         private readonly ISerializer serializer;
         private readonly IFormatterResolver formatterResolver;
-        private readonly IStorage storage;
-        private readonly IConverter converter;
+        private readonly IStorage? storage;
+        private readonly IConverter? converter;
         private readonly Dictionary<string, IProperty> properties = new Dictionary<string, IProperty>();
 
         public virtual int PropertyCount => properties.Count;
 
-        public BaseSharedDictionary(ISerializer serializer, IStorage storage, IConverter converter)
+        public BaseSharedDictionary(ISerializer serializer, IStorage? storage, IConverter? converter)
         {
             this.serializer = serializer;
             formatterResolver = serializer.FormatterResolver;
@@ -32,7 +33,7 @@ namespace SharedProperty.NETStandard
             {
                 properties.Clear();
 
-                if (storage.Exists() == false)
+                if (storage is null || storage.Exists() == false)
                 {
                     return;
                 }
@@ -41,7 +42,12 @@ namespace SharedProperty.NETStandard
                 bytes = converter?.Deconvert(bytes) ?? bytes;
                 foreach (var property in serializer.Deserialize(bytes))
                 {
-                    properties[property.Key] = property;
+                    string? propertyKey = property.Key;
+                    if (propertyKey is null)
+                    {
+                        continue;
+                    }
+                    properties[propertyKey] = property;
                 }
             }
             finally
@@ -57,6 +63,10 @@ namespace SharedProperty.NETStandard
             {
                 byte[] bytes = serializer.Serialize(properties.Values);
                 bytes = converter?.Convert(bytes) ?? bytes;
+                if (storage is null)
+                {
+                    return;
+                }
                 await storage.WriteAsync(bytes);
             }
             finally
@@ -75,7 +85,12 @@ namespace SharedProperty.NETStandard
             properties.Clear();
             foreach (var property in serializer.Deserialize(binary))
             {
-                properties[property.Key] = property;
+                string? propertyKey = property.Key;
+                if (propertyKey is null)
+                {
+                    continue;
+                }
+                properties[propertyKey] = property;
             }
         }
 
@@ -84,6 +99,7 @@ namespace SharedProperty.NETStandard
             return properties.ContainsKey(key);
         }
 
+        [return: MaybeNull]
         /// <exception cref="System.Collections.Generic.KeyNotFoundException">not found key</exception>
         /// <exception cref="System.InvalidOperationException">not target typed value or not support convert</exception>
         public virtual T GetProperty<T>(string key)
@@ -112,19 +128,21 @@ namespace SharedProperty.NETStandard
             }
 
             // implicit operating cast
-            if (TypeCache<T>.CanImplicitOperatingConvert(property.Type))
+            if (property.Type is string propertyType && TypeCache<T>.CanImplicitOperatingConvert(propertyType))
             {
-                return TypeCache<T>.GetPropertyConvertAndGetValueDelegate(property.Type)(property);
+                return TypeCache<T>.GetPropertyConvertAndGetValueDelegate(propertyType)(property);
             }
 
             throw new InvalidOperationException($"not target typed value");
         }
 
-        public virtual bool TryGetProperty<T>(string key, out T value)
+        public virtual bool TryGetProperty<T>(string key, [MaybeNull] out T value)
         {
             if (properties.TryGetValue(key, out IProperty property) == false)
             {
+#pragma warning disable CS8653
                 value = default;
+#pragma warning restore CS8653
                 return false;
             }
 
@@ -152,23 +170,27 @@ namespace SharedProperty.NETStandard
                 }
                 catch (Exception)
                 {
+#pragma warning disable CS8653
                     value = default;
+#pragma warning restore CS8653
                     return false;
                 }
             }
 
             // implicit operating cast
-            if (TypeCache<T>.CanImplicitOperatingConvert(property.Type))
+            if (property.Type is string propertyType && TypeCache<T>.CanImplicitOperatingConvert(propertyType))
             {
-                value = TypeCache<T>.GetPropertyConvertAndGetValueDelegate(property.Type)(property);
+                value = TypeCache<T>.GetPropertyConvertAndGetValueDelegate(propertyType)(property);
                 return true;
             }
 
+#pragma warning disable CS8653
             value = default;
+#pragma warning restore CS8653
             return false;
         }
 
-        public virtual void SetProperty<T>(string key, T value)
+        public virtual void SetProperty<T>(string key, [AllowNull] T value)
         {
             if (properties.TryGetValue(key, out IProperty v) && v is IProperty<T> targetProperty)
             {
@@ -176,11 +198,10 @@ namespace SharedProperty.NETStandard
                 return;
             }
 
-            var property = new Property<T>
+            var property = new Property<T>(formatterResolver.Resolve<T>())
             {
                 Key = key,
                 Type = TypeCache<T>.FullName,
-                Formatter = formatterResolver.Resolve<T>(),
                 Value = value
             };
             properties[key] = property;
@@ -196,11 +217,16 @@ namespace SharedProperty.NETStandard
             properties.Clear();
         }
 
-        public IEnumerator<KeyValuePair<string, object>> GetEnumerator()
+        public IEnumerator<KeyValuePair<string, object?>> GetEnumerator()
         {
             foreach (var property in properties.Values)
             {
-                yield return new KeyValuePair<string, object>(property.Key, property.Value);
+                string? propertyKey = property.Key;
+                if (propertyKey is null)
+                {
+                    continue;
+                }
+                yield return new KeyValuePair<string, object?>(propertyKey, property.Value);
             }
         }
 

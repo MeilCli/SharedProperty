@@ -1,6 +1,6 @@
-﻿using SharedProperty.NETStandard;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using SharedProperty.NETStandard;
 using Utf8Json;
 using Utf8Json.Formatters;
 
@@ -11,26 +11,23 @@ namespace SharedProperty.Serializer.Utf8Json
         private static class MemoryPool
         {
             [ThreadStatic]
-            private static byte[] buffer = null;
+            private static byte[]? buffer = null;
 
             public static byte[] GetBuffer()
             {
-                buffer = buffer ?? new byte[short.MaxValue];
+                buffer ??= new byte[short.MaxValue];
                 return buffer;
             }
         }
 
-        private static Utf8JsonSerializer _default;
+        private static Utf8JsonSerializer? _default;
         /// <summary>
         /// creating StandardResolver must be lazy property.
         /// otherwise, Xamarin.iOS application crush.
         /// </summary>
         public static Utf8JsonSerializer Default {
             get {
-                if (_default == null)
-                {
-                    _default = new Utf8JsonSerializer(new Utf8JsonFormatterResolver(global::Utf8Json.Resolvers.StandardResolver.Default));
-                }
+                _default ??= new Utf8JsonSerializer(new Utf8JsonFormatterResolver(global::Utf8Json.Resolvers.StandardResolver.Default));
                 return _default;
             }
         }
@@ -65,8 +62,8 @@ namespace SharedProperty.Serializer.Utf8Json
             var reader = new JsonReader(binary);
             reader.ReadIsBeginObjectWithVerify();
             int count = 0;
-            string propertyType = null;
-            IEnumerable<IProperty> result = null;
+            string? propertyType = null;
+            IEnumerable<IProperty>? result = null;
             while (reader.ReadIsEndObjectWithSkipValueSeparator(ref count) == false)
             {
                 string name = reader.ReadPropertyName();
@@ -86,9 +83,9 @@ namespace SharedProperty.Serializer.Utf8Json
             return result ?? throw new InvalidOperationException("not found properties");
         }
 
-        private IEnumerable<IProperty> readProperiesValue(ref JsonReader reader, string propertyType)
+        private IEnumerable<IProperty>? readProperiesValue(ref JsonReader reader, string? propertyType)
         {
-            if (propertyType == null)
+            if (propertyType is null)
             {
                 throw new InvalidOperationException("properties must be last json order");
             }
@@ -110,10 +107,10 @@ namespace SharedProperty.Serializer.Utf8Json
             int arrayCount = 0;
             while (reader.ReadIsEndArrayWithSkipValueSeparator(ref arrayCount) == false)
             {
-                string key = null;
-                string type = null;
-                IProperty property = null;
-                IUtf8JsonFormatter formatter = null;
+                string? key = null;
+                string? type = null;
+                IProperty? property = null;
+                IUtf8JsonFormatter? formatter = null;
                 reader.ReadIsBeginObjectWithVerify();
                 int objectCount = 0;
                 while (reader.ReadIsEndObjectWithSkipValueSeparator(ref objectCount) == false)
@@ -132,13 +129,13 @@ namespace SharedProperty.Serializer.Utf8Json
                             }
                             break;
                         case SerializeConstant.ValueName:
-                            if (type == null)
+                            if (type is null)
                             {
                                 throw new InvalidOperationException("value must be last json order");
                             }
 
                             formatter = utf8JsonFormatterResolver.Resolve(type);
-                            if (formatter == null)
+                            if (formatter is null)
                             {
                                 PrimitiveObjectFormatter.Default.Deserialize(ref reader, utf8JsonFormatterResolver.JsonFormatterResolver);
                                 break;
@@ -150,12 +147,12 @@ namespace SharedProperty.Serializer.Utf8Json
                     }
                 }
 
-                if (formatter == null)
+                if (formatter is null)
                 {
                     // skip unknown value
                     continue;
                 }
-                if (property == null)
+                if (property is null)
                 {
                     throw new InvalidOperationException("not found value");
                 }
@@ -181,8 +178,8 @@ namespace SharedProperty.Serializer.Utf8Json
                     type = migrationType;
                 }
 
-                IUtf8JsonFormatter formatter = utf8JsonFormatterResolver.Resolve(type);
-                if (formatter == null)
+                IUtf8JsonFormatter? formatter = utf8JsonFormatterResolver.Resolve(type);
+                if (formatter is null)
                 {
                     // skip unknown value
                     PrimitiveObjectFormatter.Default.Deserialize(ref reader, utf8JsonFormatterResolver.JsonFormatterResolver);
@@ -246,7 +243,7 @@ namespace SharedProperty.Serializer.Utf8Json
                 }
 
                 var utf8JsonFormatter = property.Formatter as IUtf8JsonFormatter ?? utf8JsonFormatterResolver.Resolve(property.Type);
-                if (utf8JsonFormatter == null)
+                if (utf8JsonFormatter is null)
                 {
                     continue;
                 }

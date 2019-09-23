@@ -31,9 +31,8 @@ namespace SharedProperty.Serializer.SpanJson
         public IProperty Read(ref JsonReader<byte> reader)
         {
             T value = jsonFormatter.Deserialize(ref reader);
-            return new Property<T>
+            return new Property<T>(this)
             {
-                Formatter = this,
                 Value = value
             };
         }

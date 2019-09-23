@@ -19,8 +19,10 @@ namespace SharedProperty.Benchmark.NETCore
         private readonly ISharedDictionary largeSpanJsonSerializeSharedDictionary
             = new SharedDictionary(SpanJsonSerializer.Create(SerializeMode.LargeObject), null, null);
 
+#pragma warning disable CS8618
         private byte[] shortJsonBytes;
         private byte[] largeJsonBytes;
+#pragma warning restore CS8618
 
         private readonly ISharedDictionary shortUtf8JsonDeserializeSharedDictionary
             = new SharedDictionary(new Utf8JsonSerializer(SerializeMode.ShortObject), null, null);

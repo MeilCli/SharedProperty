@@ -7,7 +7,7 @@ namespace SharedProperty.Serializer.Utf8Json
     {
         private static class FormatterCache<T>
         {
-            public static readonly IJsonFormatter<T> Formatter;
+            public static readonly IJsonFormatter<T>? Formatter;
 
             static FormatterCache()
             {
@@ -32,7 +32,7 @@ namespace SharedProperty.Serializer.Utf8Json
 
         public static readonly AotStandardResolver Default = new AotStandardResolver();
 
-        public IJsonFormatter<T> GetFormatter<T>()
+        public IJsonFormatter<T>? GetFormatter<T>()
         {
             return FormatterCache<T>.Formatter;
         }

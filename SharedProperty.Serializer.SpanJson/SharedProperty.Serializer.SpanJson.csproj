@@ -6,19 +6,13 @@
     <PackageId>SharedProperty.Serializer.SpanJson</PackageId>
     <Version>1.0.0</Version>
     <Authors>meilcli</Authors>
-    <Description>Key-Value store library for Application setting.
-Serializer package using SpanJson.</Description>
+    <Description>
+      Key-Value store library for Application setting.
+      Serializer package using SpanJson.
+    </Description>
     <PackageLicenseUrl>https://github.com/MeilCli/SharedProperty/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/MeilCli/SharedProperty</PackageProjectUrl>
     <PackageTags>SharedProperty, Settings, KeyValueStore, Xamarin</PackageTags>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <LangVersion>latest</LangVersion>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>

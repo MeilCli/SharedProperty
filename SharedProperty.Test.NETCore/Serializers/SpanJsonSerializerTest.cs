@@ -1,7 +1,7 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Text;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SharedProperty.NETStandard;
 using SharedProperty.Serializer.SpanJson;
-using System.Text;
 
 namespace SharedProperty.Test.NETCore.Serializers
 {
@@ -68,6 +68,40 @@ namespace SharedProperty.Test.NETCore.Serializers
             sharedDictionary.RawImport(Encoding.UTF8.GetBytes(JsonConstant.LargeModeJsonWithUnknownData));
             Assert.AreEqual(sharedDictionary.PropertyCount, 1);
             Assert.AreEqual(sharedDictionary.GetProperty<int>("key2"), 1);
+        }
+
+        [TestCategory(TestCategoryConstant.Serializee)]
+        [TestMethod]
+        public void ShortModeNullValue()
+        {
+            var sharedDictionary = new SharedDictionary(SpanJsonSerializer.Create(SerializeMode.ShortObject), null, null);
+            sharedDictionary.SetProperty<int?>("nullableInt", null);
+            sharedDictionary.SetProperty<string?>("nullableString", null);
+
+            byte[] binary = sharedDictionary.RawExport();
+            sharedDictionary.ClearProperty();
+            Assert.AreEqual(0, sharedDictionary.PropertyCount);
+            sharedDictionary.RawImport(binary);
+
+            Assert.AreEqual(null, sharedDictionary.GetProperty<int?>("nullableInt"));
+            Assert.AreEqual(null, sharedDictionary.GetProperty<string?>("nullableString"));
+        }
+
+        [TestCategory(TestCategoryConstant.Serializee)]
+        [TestMethod]
+        public void LargeModeNullValue()
+        {
+            var sharedDictionary = new SharedDictionary(SpanJsonSerializer.Create(SerializeMode.LargeObject), null, null);
+            sharedDictionary.SetProperty<int?>("nullableInt", null);
+            sharedDictionary.SetProperty<string?>("nullableString", null);
+
+            byte[] binary = sharedDictionary.RawExport();
+            sharedDictionary.ClearProperty();
+            Assert.AreEqual(0, sharedDictionary.PropertyCount);
+            sharedDictionary.RawImport(binary);
+
+            Assert.AreEqual(null, sharedDictionary.GetProperty<int?>("nullableInt"));
+            Assert.AreEqual(null, sharedDictionary.GetProperty<string?>("nullableString"));
         }
     }
 }
