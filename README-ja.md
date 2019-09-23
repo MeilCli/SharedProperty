@@ -1,5 +1,5 @@
 # SharedProperty
-[![Build Status](https://meilcli.visualstudio.com/SharedProperty/_apis/build/status/MeilCli.SharedProperty)](https://meilcli.visualstudio.com/SharedProperty/_build/latest?definitionId=3) [![nuget](https://img.shields.io/nuget/v/SharedProperty.svg)](https://www.nuget.org/packages/SharedProperty) [![release](https://img.shields.io/github/release/MeilCli/SharedProperty/all.svg)](https://github.com/MeilCli/SharedProperty/releases)  
+[![Build Status](https://meilcli.visualstudio.com/SharedProperty/_apis/build/status/MeilCli.SharedProperty)](https://meilcli.visualstudio.com/SharedProperty/_build/latest?definitionId=3) [![nuget](https://img.shields.io/nuget/v/SharedProperty.svg)](https://www.nuget.org/packages/SharedProperty)  
 アプリケーションデータを保存するためのKey-Valueストアライブラリー(for .NET Standard 2.0)
 
 ## 動作環境
@@ -17,6 +17,8 @@
   - SerializerにSpanJsonを使う場合に必要
 - [SharedProperty.Serializer.Utf8Json](https://www.nuget.org/packages/SharedProperty.Serializer.Utf8Json)
   - SerializerにUtf8Jsonを使う場合に必要
+- [SharedProperty.Serializer.SystemTextJson](https://www.nuget.org/packages/SharedProperty.Serializer.SystemTextJson)
+  - SerializerにSystem.Text.Jsonを使う場合に必要
 
 ## 使い方
 ```csharp
@@ -62,6 +64,7 @@ WriteLine(sharedDictionary.GetProperty<List<int>>("list").Count);
 
 - SharedProperty.Serializer.Utf8Json
 - SharedProperty.Serializer.SpanJson
+- SharedProperty.Serializer.SystemTextJson
 
 ### Utf8Json
 .NET Standard向けの高速なJsonSerializerである[Utf8Json](https://github.com/neuecc/Utf8Json)を使用することができます。
@@ -77,6 +80,13 @@ SpanJsonではUTF-16にも対応していますが速度が遅くなるため、
 SharedDicitionaryへの設定には、`SpanJsonSerializer.Default`を使用するか、`SpanJsonSerializer.Create`メソッドを使用するなどして`SpanJsonSerializer`のインスタンスを作成してください。  
 
 各設定値のSerialize/DeserializeはSpanJsonが解決します。
+
+### System.Text.Json
+.NET Standard向けの高速なJsonSerializerである[System.Text.Json](https://www.nuget.org/packages/System.Text.Json)を使用することができます。
+
+SharedDictionaryへの設定には、`SystemTextJsonSerializer.Default`を使用するか`SystemTextJsonSerializer`のインスタンスを作成してください。
+
+各設定値のSerialize/DeserializeはSystem.Text.Jsonが解決します。
 
 ### SerializeMode
 SharedPropertyは二つのJson形式を用意しています。
@@ -173,7 +183,7 @@ long l = sharedDictionary.GetProperty<long>("number")
 
 
 ### マイグレーション
-`Utf8JsonSerializer.MigrationTypeDictionary`または`SpanJsonSerializer.MigrationTypeDictionary`を使用することによって保存した値の型をマイグレーションすることが可能です。
+`Utf8JsonSerializer.MigrationTypeDictionary`または`SpanJsonSerializer.MigrationTypeDictionary`または`SystemTextJsonSerializer.MigrationTypeDictionary`を使用することによって保存した値の型をマイグレーションすることが可能です。
 また、同じ型でのマイグレーションはUtf8JsonまたはSpanJsonのCustomFormatterResolverとCustomFormatterを作成してください。
 
 また、ファイル読み込み時に不明な型のデータは読み込みがスキップされます。
@@ -194,6 +204,9 @@ Xamarin.iOSではAOTのため`Utf8Json.Resolvers.StandardResolver.Default`を利
 
 **SharedProperty.Serializer.SpanJson**
 - [SpanJson](https://github.com/Tornhoof/SpanJson) : [MIT License](https://github.com/Tornhoof/SpanJson/blob/master/LICENSE)によって公開されています
+
+**SharedProperty.Serializer.SystemTextJson**
+- [System.Text.Json](https://www.nuget.org/packages/System.Text.Json) : [MIT License](https://github.com/dotnet/corefx/blob/master/LICENSE.TXT)によって公開されています
 
 #### ベンチマーク
 ベンチマークには以下のライブラリを使用しています。

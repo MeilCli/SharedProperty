@@ -1,5 +1,5 @@
 # SharedProperty
-[![Build Status](https://meilcli.visualstudio.com/SharedProperty/_apis/build/status/MeilCli.SharedProperty)](https://meilcli.visualstudio.com/SharedProperty/_build/latest?definitionId=3) [![nuget](https://img.shields.io/nuget/v/SharedProperty.svg)](https://www.nuget.org/packages/SharedProperty) [![release](https://img.shields.io/github/release/MeilCli/SharedProperty/all.svg)](https://github.com/MeilCli/SharedProperty/releases)  
+[![Build Status](https://meilcli.visualstudio.com/SharedProperty/_apis/build/status/MeilCli.SharedProperty)](https://meilcli.visualstudio.com/SharedProperty/_build/latest?definitionId=3) [![nuget](https://img.shields.io/nuget/v/SharedProperty.svg)](https://www.nuget.org/packages/SharedProperty)  
 Key-Value store library for application setting(for .NET Standard 2.0)
 
 [for Japanese/日本語版README](README-ja.md)
@@ -19,6 +19,8 @@ It should work if it is compatible with .NET Standard 2.0
   - must install if using SpanJson in Serializer
 - [SharedProperty.Serializer.Utf8Json](https://www.nuget.org/packages/SharedProperty.Serializer.Utf8Json)
   - must install if using Utf8Json in Serializer
+- [SharedProperty.Serializer.SystemTextJson](https://www.nuget.org/packages/SharedProperty.Serializer.SystemTextJson)
+  - must install if using System.Text.Json in Serializer
 
 ## Usage
 ```csharp
@@ -64,6 +66,7 @@ SharedProperty provides the following two Serializers.
 
 - SharedProperty.Serializer.Utf8Json
 - SharedProperty.Serializer.SpanJson
+- SharedProperty.Serializer.SystemTextJson
 
 ### Utf8Json
 can use fast JsonSerializer : [Utf8Json](https://github.com/neuecc/Utf8Json) for .NET Standard.
@@ -79,6 +82,13 @@ supporting UTF-8 mode because performance.
 Setting to SharedDicitionary, use `SpanJsonSerializer.Default`  or create `SpanJsonSerializer` instance.
 
 SpanJson solves each value when Serialize/Deserialize.
+
+### System.Text.Json
+can use fast JsonSerializer : [System.Text.Json](https://www.nuget.org/packages/System.Text.Json) for .NET Standard.   
+
+Setting to SharedDicitionary, use `SystemTextJsonSerializer.Default`  or create `SystemTextJsonSerializer` instance.
+
+System.Text.Json solves each value when Serialize/Deserialize.
 
 ### SerializeMode
 SharedProperty provides two Json formats.
@@ -176,7 +186,7 @@ Supported implicit type conversion
 
 
 ### Migration
-It is possible to migrate the saved value type by using `Utf8JsonSerializer.MigrationTypeDictionary` or`SpanJsonSerializer.MigrationTypeDictionary`.
+It is possible to migrate the saved value type by using `Utf8JsonSerializer.MigrationTypeDictionary` or`SpanJsonSerializer.MigrationTypeDictionary` or `SystemTextJsonSerializer.MigrationTypeDictionary`.
 
 Also, for migration with the same type please create Utf8Json or SpanJson CustomFormatterResolver and CustomFormatter.
 
@@ -198,6 +208,10 @@ The library used depends on the package.
 
 **SharedProperty.Serializer.SpanJson**
 - [SpanJson](https://github.com/Tornhoof/SpanJson) : published by [MIT License](https://github.com/Tornhoof/SpanJson/blob/master/LICENSE).
+
+
+**SharedProperty.Serializer.SystemTextJson**
+- [System.Text.Json](https://www.nuget.org/packages/System.Text.Json) : published by [MIT License](https://github.com/dotnet/corefx/blob/master/LICENSE.TXT).
 
 #### Benchmark
 The following libraries are used for the benchmark.
