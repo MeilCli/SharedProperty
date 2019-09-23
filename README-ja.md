@@ -1,5 +1,5 @@
 # SharedProperty
-[![Build Status](https://meilcli.visualstudio.com/SharedProperty/_apis/build/status/MeilCli.SharedProperty)](https://meilcli.visualstudio.com/SharedProperty/_build/latest?definitionId=3) [![nuget](https://img.shields.io/nuget/v/SharedProperty.svg)](https://www.nuget.org/packages/SharedProperty)  
+[![Build Status](https://dev.azure.com/meilcli/SharedProperty/_apis/build/status/MeilCli.SharedProperty?branchName=master)](https://dev.azure.com/meilcli/SharedProperty/_build/latest?definitionId=3&branchName=master) [![nuget](https://img.shields.io/nuget/v/SharedProperty.svg)](https://www.nuget.org/packages/SharedProperty)  
 アプリケーションデータを保存するためのKey-Valueストアライブラリー(for .NET Standard 2.0)
 
 ## 動作環境
