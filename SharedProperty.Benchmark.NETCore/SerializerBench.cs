@@ -1,6 +1,7 @@
 ﻿using BenchmarkDotNet.Attributes;
 using SharedProperty.NETStandard;
 using SharedProperty.Serializer.SpanJson;
+using SharedProperty.Serializer.SystemTextJson;
 using SharedProperty.Serializer.Utf8Json;
 
 namespace SharedProperty.Benchmark.NETCore
@@ -18,6 +19,10 @@ namespace SharedProperty.Benchmark.NETCore
             = new SharedDictionary(SpanJsonSerializer.Create(SerializeMode.ShortObject), null, null);
         private readonly ISharedDictionary largeSpanJsonSerializeSharedDictionary
             = new SharedDictionary(SpanJsonSerializer.Create(SerializeMode.LargeObject), null, null);
+        private readonly ISharedDictionary shortSystemTextJsonSerializeSharedDictionary
+            = new SharedDictionary(new SystemTextJsonSerializer(SerializeMode.ShortObject), null, null);
+        private readonly ISharedDictionary largeSystemTextJsonSerializeSharedDictionary
+            = new SharedDictionary(new SystemTextJsonSerializer(SerializeMode.LargeObject), null, null);
 
 #pragma warning disable CS8618
         private byte[] shortJsonBytes;
@@ -32,6 +37,10 @@ namespace SharedProperty.Benchmark.NETCore
             = new SharedDictionary(SpanJsonSerializer.Create(SerializeMode.ShortObject), null, null);
         private readonly ISharedDictionary largeSpanJsonDeserializeSharedDictionary
             = new SharedDictionary(SpanJsonSerializer.Create(SerializeMode.LargeObject), null, null);
+        private readonly ISharedDictionary shortSystemTextJsonDeserializeSharedDictionary
+            = new SharedDictionary(new SystemTextJsonSerializer(SerializeMode.ShortObject), null, null);
+        private readonly ISharedDictionary largeSystemTextJsonDeserializeSharedDictionary
+            = new SharedDictionary(new SystemTextJsonSerializer(SerializeMode.LargeObject), null, null);
 
         [GlobalSetup]
         public void SetUp()
@@ -40,7 +49,9 @@ namespace SharedProperty.Benchmark.NETCore
                 shortUtf8JsonSerializeSharedDictionary,
                 largeUtf8JsonSerializeSharedDictionary,
                 shortSpanJsonSerializeSharedDictionary,
-                largeSpanJsonSerializeSharedDictionary
+                largeSpanJsonSerializeSharedDictionary,
+                shortSystemTextJsonSerializeSharedDictionary,
+                largeSystemTextJsonSerializeSharedDictionary
             };
 
             foreach (var sharedDictionary in sharedDictionaries)
@@ -79,6 +90,18 @@ namespace SharedProperty.Benchmark.NETCore
         }
 
         [Benchmark]
+        public void ShortSystemTextJsonSerialize()
+        {
+            shortSystemTextJsonSerializeSharedDictionary.RawExport();
+        }
+
+        [Benchmark]
+        public void LargeSystemTextJsonSerialize()
+        {
+            largeSystemTextJsonSerializeSharedDictionary.RawExport();
+        }
+
+        [Benchmark]
         public void ShortUtf8JsonDeserialize()
         {
             shortUtf8JsonDeserializeSharedDictionary.RawImport(shortJsonBytes);
@@ -100,6 +123,18 @@ namespace SharedProperty.Benchmark.NETCore
         public void LargeSpanJsonDeserialize()
         {
             largeSpanJsonDeserializeSharedDictionary.RawImport(largeJsonBytes);
+        }
+
+        [Benchmark]
+        public void ShortSystemTextJsonDeserialize()
+        {
+            shortSystemTextJsonDeserializeSharedDictionary.RawImport(shortJsonBytes);
+        }
+
+        [Benchmark]
+        public void LargeSystemTextJsonDeserialize()
+        {
+            largeSystemTextJsonDeserializeSharedDictionary.RawImport(largeJsonBytes);
         }
     }
 }

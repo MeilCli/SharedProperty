@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageId>SharedProperty.Serializer.SystemTextJson</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>meilcli</Authors>
+    <Description>
+      Key-Value store library for Application setting.
+      Serializer package using System.Text.Json.
+    </Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/MeilCli/SharedProperty</PackageProjectUrl>
+    <PackageTags>SharedProperty, Settings, KeyValueStore, Xamarin</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Text.Json" Version="4.6.0-rc1.19456.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SharedProperty.NETStandard\SharedProperty.NETStandard.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -12,6 +12,7 @@
   <ItemGroup>
     <ProjectReference Include="..\SharedProperty.NETStandard\SharedProperty.NETStandard.csproj" />
     <ProjectReference Include="..\SharedProperty.Serializer.SpanJson\SharedProperty.Serializer.SpanJson.csproj" />
+    <ProjectReference Include="..\SharedProperty.Serializer.SystemTextJson\SharedProperty.Serializer.SystemTextJson.csproj" />
     <ProjectReference Include="..\SharedProperty.Serializer.Utf8Json\SharedProperty.Serializer.Utf8Json.csproj" />
   </ItemGroup>
 
