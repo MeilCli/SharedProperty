@@ -1,6 +1,6 @@
-﻿using SharedProperty.NETStandard;
+﻿using System;
+using SharedProperty.NETStandard;
 using SpanJson;
-using System;
 
 namespace SharedProperty.Serializer.SpanJson
 {
@@ -20,7 +20,7 @@ namespace SharedProperty.Serializer.SpanJson
         {
             if (property is Property<T> typedProperty)
             {
-                jsonFormatter.Serialize(ref writer, typedProperty.Value, 0);
+                jsonFormatter.Serialize(ref writer, typedProperty.Value);
             }
             else
             {
