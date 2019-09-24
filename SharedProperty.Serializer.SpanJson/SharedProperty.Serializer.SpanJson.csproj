@@ -16,7 +16,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="SpanJson" Version="2.0.14" />
+    <PackageReference Include="SpanJson" Version="3.0.0" />
   </ItemGroup>
 
   <ItemGroup>
