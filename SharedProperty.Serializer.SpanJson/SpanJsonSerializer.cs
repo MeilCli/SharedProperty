@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using SharedProperty.NETStandard;
+﻿using SharedProperty.NETStandard;
 using SpanJson;
 using SpanJson.Resolvers;
+using System;
+using System.Collections.Generic;
 
 namespace SharedProperty.Serializer.SpanJson
 {
@@ -111,7 +111,7 @@ namespace SharedProperty.Serializer.SpanJson
                             break;
                         case SerializeConstant.TypeName:
                             type = reader.ReadString();
-                            if (MigrationTypeDictionary.TryGetValue(type, out string migrationType))
+                            if (MigrationTypeDictionary.TryGetValue(type, out string? migrationType))
                             {
                                 type = migrationType;
                             }
@@ -161,7 +161,7 @@ namespace SharedProperty.Serializer.SpanJson
 
                 reader.ReadUtf8BeginObjectOrThrow();
                 string type = reader.ReadUtf8EscapedName();
-                if (MigrationTypeDictionary.TryGetValue(type, out string migrationType))
+                if (MigrationTypeDictionary.TryGetValue(type, out string? migrationType))
                 {
                     type = migrationType;
                 }
