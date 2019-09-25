@@ -105,27 +105,27 @@ SharedPropertyは二つのJson形式を用意しています。
 
 BenchmarkDotNet=v0.11.5, OS=Windows 10.0.18362
 Intel Core i7-6700 CPU 3.40GHz (Skylake), 1 CPU, 8 logical and 4 physical cores
-.NET Core SDK=3.0.100-rc1-014190
-  [Host] : .NET Core 2.1.12 (CoreCLR 4.6.27817.01, CoreFX 4.6.27818.01), 64bit RyuJIT
-  Core   : .NET Core 2.1.12 (CoreCLR 4.6.27817.01, CoreFX 4.6.27818.01), 64bit RyuJIT
+.NET Core SDK=3.0.100
+  [Host] : .NET Core 3.0.0 (CoreCLR 4.700.19.46205, CoreFX 4.700.19.46214), 64bit RyuJIT
+  Core   : .NET Core 3.0.0 (CoreCLR 4.700.19.46205, CoreFX 4.700.19.46214), 64bit RyuJIT
 
 Job=Core  Runtime=Core  
 
 ```
-|                         Method |       Mean |     Error |     StdDev |        Min |        Max |  Gen 0 | Gen 1 | Gen 2 | Allocated |
-|------------------------------- |-----------:|----------:|-----------:|-----------:|-----------:|-------:|------:|------:|----------:|
-|         ShortUtf8JsonSerialize |   825.4 ns |  8.604 ns |   7.627 ns |   814.0 ns |   841.2 ns | 0.0753 |     - |     - |     320 B |
-|         LargeUtf8JsonSerialize | 1,196.8 ns | 10.690 ns |   9.476 ns | 1,185.4 ns | 1,219.2 ns | 0.0896 |     - |     - |     384 B |
-|         ShortSpanJsonSerialize |   858.7 ns |  4.100 ns |   3.634 ns |   852.8 ns |   864.3 ns | 0.0753 |     - |     - |     320 B |
-|         LargeSpanJsonSerialize | 1,481.1 ns |  7.335 ns |   6.125 ns | 1,468.4 ns | 1,491.7 ns | 0.0896 |     - |     - |     384 B |
-|   ShortSystemTextJsonSerialize | 2,252.9 ns | 30.226 ns |  26.795 ns | 2,214.8 ns | 2,285.2 ns | 0.2937 |     - |     - |    1248 B |
-|   LargeSystemTextJsonSerialize | 2,905.0 ns | 19.105 ns |  17.871 ns | 2,870.7 ns | 2,934.1 ns | 0.4387 |     - |     - |    1848 B |
-|       ShortUtf8JsonDeserialize | 1,893.4 ns | 14.710 ns |  12.284 ns | 1,873.8 ns | 1,911.2 ns | 0.2270 |     - |     - |     960 B |
-|       LargeUtf8JsonDeserialize | 2,664.7 ns | 22.682 ns |  21.217 ns | 2,634.5 ns | 2,716.4 ns | 0.3052 |     - |     - |    1296 B |
-|       ShortSpanJsonDeserialize | 1,276.1 ns | 15.472 ns |  12.920 ns | 1,258.8 ns | 1,295.4 ns | 0.2270 |     - |     - |     960 B |
-|       LargeSpanJsonDeserialize | 1,794.7 ns | 13.744 ns |  12.856 ns | 1,779.7 ns | 1,824.6 ns | 0.3071 |     - |     - |    1296 B |
-| ShortSystemTextJsonDeserialize | 3,060.5 ns | 59.927 ns |  73.595 ns | 2,973.1 ns | 3,271.5 ns | 0.2289 |     - |     - |     976 B |
-| LargeSystemTextJsonDeserialize | 4,492.6 ns | 96.066 ns | 134.671 ns | 4,298.8 ns | 4,900.0 ns | 0.3090 |     - |     - |    1312 B |
+|                         Method |       Mean |     Error |     StdDev |     Median |        Min |        Max |  Gen 0 | Gen 1 | Gen 2 | Allocated |
+|------------------------------- |-----------:|----------:|-----------:|-----------:|-----------:|-----------:|-------:|------:|------:|----------:|
+|         ShortUtf8JsonSerialize |   920.3 ns | 23.433 ns |  68.726 ns |   883.2 ns |   842.8 ns | 1,030.2 ns | 0.2041 |     - |     - |     856 B |
+|         LargeUtf8JsonSerialize | 1,178.5 ns | 55.216 ns |  65.731 ns | 1,147.1 ns | 1,118.8 ns | 1,308.9 ns | 0.0916 |     - |     - |     384 B |
+|         ShortSpanJsonSerialize |   771.4 ns | 21.177 ns |  62.441 ns |   733.0 ns |   706.6 ns |   967.8 ns | 0.0763 |     - |     - |     320 B |
+|         LargeSpanJsonSerialize | 1,383.7 ns | 34.000 ns | 100.250 ns | 1,432.0 ns | 1,258.5 ns | 1,675.9 ns | 0.0916 |     - |     - |     384 B |
+|   ShortSystemTextJsonSerialize | 1,924.4 ns | 48.249 ns | 142.263 ns | 2,008.5 ns | 1,749.4 ns | 2,325.2 ns | 0.1469 |     - |     - |     616 B |
+|   LargeSystemTextJsonSerialize | 2,232.5 ns | 21.685 ns |  19.223 ns | 2,229.3 ns | 2,204.5 ns | 2,269.5 ns | 0.1602 |     - |     - |     680 B |
+|       ShortUtf8JsonDeserialize | 1,774.1 ns | 52.125 ns | 152.874 ns | 1,694.3 ns | 1,612.9 ns | 2,187.1 ns | 0.2174 |     - |     - |     912 B |
+|       LargeUtf8JsonDeserialize | 2,353.2 ns | 50.123 ns | 106.817 ns | 2,315.9 ns | 2,246.3 ns | 2,666.1 ns | 0.2861 |     - |     - |    1200 B |
+|       ShortSpanJsonDeserialize | 1,205.5 ns |  7.795 ns |   6.910 ns | 1,204.8 ns | 1,193.6 ns | 1,216.3 ns | 0.2174 |     - |     - |     912 B |
+|       LargeSpanJsonDeserialize | 1,807.0 ns | 17.712 ns |  15.702 ns | 1,804.8 ns | 1,789.5 ns | 1,842.7 ns | 0.2861 |     - |     - |    1200 B |
+| ShortSystemTextJsonDeserialize | 2,551.4 ns | 25.394 ns |  23.753 ns | 2,544.5 ns | 2,520.5 ns | 2,591.1 ns | 0.2213 |     - |     - |     928 B |
+| LargeSystemTextJsonDeserialize | 3,376.1 ns | 29.346 ns |  27.450 ns | 3,371.6 ns | 3,335.8 ns | 3,432.8 ns | 0.2899 |     - |     - |    1216 B |
 
 [SharedProperty.Benchmark.NETCore/SerializerBench.cs](SharedProperty.Benchmark.NETCore/SerializerBench.cs)
 
