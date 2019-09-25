@@ -1,22 +1,22 @@
-﻿using System;
+﻿using SharedProperty.NETStandard;
+using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Text.Json;
-using SharedProperty.NETStandard;
 
 namespace SharedProperty.Serializer.SystemTextJson
 {
     public class SystemTextJsonSerializer : ISerializer
     {
-        private static class MemoryPool
+        private static class MemoryHelper
         {
             [ThreadStatic]
-            private static byte[]? buffer = null;
+            private static int memorySize = byte.MaxValue;
 
-            public static byte[] GetBuffer()
+            public static int MemorySize => memorySize;
+
+            public static void SetLastUseMemorySize(int size)
             {
-                buffer ??= new byte[short.MaxValue];
-                return buffer;
+                memorySize = size;
             }
         }
 
@@ -229,16 +229,19 @@ namespace SharedProperty.Serializer.SystemTextJson
                 Indented = systemTextJsonFormatterResolver.JsonSerializerOptions.WriteIndented,
                 SkipValidation = true
             };
-            var memoryStream = new MemoryStream();
-            var writer = new Utf8JsonWriter(memoryStream, writerOption);
+            var arrayBufferWriter = new ArrayBufferWriter<byte>(MemoryHelper.MemorySize);
+            var writer = new Utf8JsonWriter(arrayBufferWriter, writerOption);
 
             writer.WriteStartObject();
-
             writeProperties(ref writer, properties);
-
             writer.WriteEndObject();
             writer.Flush();
-            return memoryStream.ToArray();
+
+
+            byte[] result = arrayBufferWriter.WrittenMemory.ToArray();
+            MemoryHelper.SetLastUseMemorySize(result.Length);
+            arrayBufferWriter.Dispose();
+            return result;
         }
 
         private void writeProperties(ref Utf8JsonWriter writer, IEnumerable<IProperty> properties)

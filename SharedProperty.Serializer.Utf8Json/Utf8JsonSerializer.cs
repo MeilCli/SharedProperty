@@ -1,6 +1,7 @@
-﻿using System;
+﻿using SharedProperty.NETStandard;
+using System;
+using System.Buffers;
 using System.Collections.Generic;
-using SharedProperty.NETStandard;
 using Utf8Json;
 using Utf8Json.Formatters;
 
@@ -8,15 +9,16 @@ namespace SharedProperty.Serializer.Utf8Json
 {
     public class Utf8JsonSerializer : ISerializer
     {
-        private static class MemoryPool
+        private static class MemoryHelper
         {
             [ThreadStatic]
-            private static byte[]? buffer = null;
+            private static int memorySize = byte.MaxValue;
 
-            public static byte[] GetBuffer()
+            public static int MemorySize => memorySize;
+
+            public static void SetLastUseMemorySize(int size)
             {
-                buffer ??= new byte[short.MaxValue];
-                return buffer;
+                memorySize = size;
             }
         }
 
@@ -199,13 +201,17 @@ namespace SharedProperty.Serializer.Utf8Json
 
         public byte[] Serialize(IEnumerable<IProperty> properties)
         {
-            var writer = new JsonWriter(MemoryPool.GetBuffer());
+            byte[] buffer = ArrayPool<byte>.Shared.Rent(MemoryHelper.MemorySize);
+            var writer = new JsonWriter(buffer);
+
             writer.WriteBeginObject();
-
             writeProperties(ref writer, properties);
-
             writer.WriteEndObject();
-            return writer.ToUtf8ByteArray();
+
+            byte[] result = writer.ToUtf8ByteArray();
+            MemoryHelper.SetLastUseMemorySize(result.Length);
+            ArrayPool<byte>.Shared.Return(buffer);
+            return result;
         }
 
         private void writeProperties(ref JsonWriter writer, IEnumerable<IProperty> properties)

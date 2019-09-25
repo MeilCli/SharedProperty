@@ -208,10 +208,10 @@ The library used depends on the package.
 
 **SharedProperty.Serializer.Utf8Json**
 - [Utf8Json](https://github.com/neuecc/Utf8Json) : published by [MIT License](https://github.com/neuecc/Utf8Json/blob/master/LICENSE).
+- [System.Buffers](https://www.nuget.org/packages/System.Buffers/) : published by [MIT License](https://github.com/dotnet/corefx/blob/master/LICENSE.TXT)
 
 **SharedProperty.Serializer.SpanJson**
 - [SpanJson](https://github.com/Tornhoof/SpanJson) : published by [MIT License](https://github.com/Tornhoof/SpanJson/blob/master/LICENSE).
-
 
 **SharedProperty.Serializer.SystemTextJson**
 - [System.Text.Json](https://www.nuget.org/packages/System.Text.Json) : published by [MIT License](https://github.com/dotnet/corefx/blob/master/LICENSE.TXT).

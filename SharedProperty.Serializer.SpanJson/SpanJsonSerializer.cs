@@ -20,6 +20,19 @@ namespace SharedProperty.Serializer.SpanJson
     public class SpanJsonSerializer<TResolver> : ISerializer
         where TResolver : IJsonFormatterResolver<byte, TResolver>, new()
     {
+        private static class MemoryHelper
+        {
+            [ThreadStatic]
+            private static int memorySize = byte.MaxValue;
+
+            public static int MemorySize => memorySize;
+
+            public static void SetLastUseMemorySize(int size)
+            {
+                memorySize = size;
+            }
+        }
+
         private readonly SpanJsonFormatterResolver<TResolver> jsonFormatterResolver;
 
         public IDictionary<string, string> MigrationTypeDictionary { get; } = new Dictionary<string, string>();
@@ -187,13 +200,16 @@ namespace SharedProperty.Serializer.SpanJson
 
         public byte[] Serialize(IEnumerable<IProperty> properties)
         {
-            var writer = new JsonWriter<byte>(short.MaxValue);
+            var writer = new JsonWriter<byte>(MemoryHelper.MemorySize);
+
             writer.WriteBeginObject();
-
             writeProperties(ref writer, properties);
-
             writer.WriteEndObject();
-            return writer.ToByteArray();
+
+            byte[] result = writer.ToByteArray();
+            MemoryHelper.SetLastUseMemorySize(result.Length);
+            writer.Dispose();
+            return result;
         }
 
         private void writeProperties(ref JsonWriter<byte> writer, IEnumerable<IProperty> properties)

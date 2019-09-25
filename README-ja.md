@@ -204,6 +204,7 @@ Xamarin.iOSではAOTのため`Utf8Json.Resolvers.StandardResolver.Default`を利
 
 **SharedProperty.Serializer.Utf8Json**
 - [Utf8Json](https://github.com/neuecc/Utf8Json) : [MIT License](https://github.com/neuecc/Utf8Json/blob/master/LICENSE)によって公開されています
+- [System.Buffers](https://www.nuget.org/packages/System.Buffers/) : [MIT License](https://github.com/dotnet/corefx/blob/master/LICENSE.TXT)によって公開されています
 
 **SharedProperty.Serializer.SpanJson**
 - [SpanJson](https://github.com/Tornhoof/SpanJson) : [MIT License](https://github.com/Tornhoof/SpanJson/blob/master/LICENSE)によって公開されています
