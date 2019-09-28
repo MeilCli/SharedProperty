@@ -1,0 +1,34 @@
+name: Check Package
+
+on: 
+  schedule:
+    #- cron: '0 8 * * 5' # every friday AM 8:00
+    - cron: `38 * * * *`
+jobs:
+  nuget:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '3.0.100'
+    - run: dotnet restore
+    - uses: MeilCli/nuget-update-check-action@master
+      id: outdated
+      with:
+        project_or_solution_files: |
+          SharedProperty.NETStandard/SharedProperty.NETStandard.csproj
+          SharedProperty.Serializer.SpanJson/SharedProperty.Serializer.SpanJson.csproj
+          SharedProperty.Serializer.SystemTextJson/SharedProperty.Serializer.SystemTextJson.csproj
+          SharedProperty.Serializer.Utf8Json/SharedProperty.Serializer.Utf8Json.csproj
+          SharedProperty.Test.NETCore/SharedProperty.Test.NETCore.csproj
+          SharedProperty.Benchmark.NETCore/SharedProperty.Benchmark.NETCore.csproj
+    - uses: 8398a7/action-slack@v2
+      if: steps.outdated.outputs.has_nuget_update != 'false'
+      with:
+        status: ${{ job.status }}
+        text: ${{ steps.outdated.outputs.nuget_update_text }}
+        author_name: GitHub Actions
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
