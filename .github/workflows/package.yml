@@ -3,7 +3,7 @@ name: Check Package
 on: 
   schedule:
     #- cron: '0 8 * * 5' # every friday AM 8:00
-    - cron: `38 * * * *`
+    - cron: '40 * * * *'
 jobs:
   nuget:
     runs-on: ubuntu-latest
